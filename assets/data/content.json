@@ -2,6 +2,16 @@
   "name": "Yasser Ahmed",
   "tagline": "Machine Learning & Data Science aspirant exploring data-driven intelligence.",
   "email": "yassermarvel8@gmail.com",
+  "socials": [
+    {
+      "name": "GitHub",
+      "url": "https://github.com/MrWhoCoded"
+    },
+    {
+      "name": "LinkedIn",
+      "url": "#"
+    }
+  ],
   "about": [
     "I'm Yasser Ahmed, a Machine Learning and Data Science enthusiast passionate about building intelligent systems that solve real-world problems.",
     "Currently exploring the intersection of data engineering, predictive modeling, and applied AI. I enjoy working with complex datasets and transforming them into actionable insights.",
