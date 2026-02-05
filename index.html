@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Yasser Ahmed - Machine Learning & Data Science aspirant exploring data-driven intelligence.">
+    <meta name="author" content="Yasser Ahmed">
+
+    <title>Yasser Ahmed | ML & Data Science</title>
+
+    <!-- Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Fonts: JetBrains Mono (CLI) + Inter (body) + Noto Sans Kannada (corruption fallback) -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Kannada:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+    <!-- CLI Landing Intro (Task 1) -->
+    <div id="cli-intro" class="cli-intro" aria-live="polite">
+        <div class="cli-terminal">
+            <pre id="cli-output"></pre>
+            <span class="cli-cursor">▋</span>
+        </div>
+        <button id="skip-intro" class="skip-btn" aria-label="Skip intro animation">
+            Skip <kbd>Esc</kbd>
+        </button>
+    </div>
+
+    <!-- Main Content (hidden until intro completes/skipped) -->
+    <main id="main-content" class="main-content" hidden>
+
+        <!-- Hero Section (Task 2) -->
+        <section id="hero" class="section hero">
+            <div class="container">
+                <h1 class="hero-name">Yasser Ahmed</h1>
+                <p class="hero-tagline">Machine Learning & Data Science aspirant <span data-scramble>exploring
+                        data-driven intelligence.</span></p>
+            </div>
+            <!-- Scroll indicator -->
+            <a href="#about" class="scroll-indicator" aria-label="Scroll to About section">
+                <span class="scroll-arrow"></span>
+            </a>
+        </section>
+
+        <!-- About Section (Task 4) -->
+        <section id="about" class="section about">
+            <div class="container">
+                <h2 class="section-heading" data-scramble>About</h2>
+                <div class="about-content">
+                    <div class="about-photo">
+                        <div class="photo-placeholder" aria-label="Profile photo placeholder">
+                            <!-- Replace with: <img src="assets/img/profile.jpg" alt="Yasser Ahmed" loading="lazy"> -->
+                            <span>Photo</span>
+                        </div>
+                    </div>
+                    <div class="about-text" id="about-text">
+                        <!-- Content loaded from content.json -->
+                    </div>
+                </div>
+                <!-- Skills -->
+                <div class="skills" id="skills">
+                    <!-- Skills loaded from content.json -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section (Task 5) -->
+        <section id="projects" class="section projects">
+            <div class="container">
+                <h2 class="section-heading" data-scramble>Projects</h2>
+                <div class="projects-grid" id="projects-grid">
+                    <!-- Projects loaded from projects.json -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section (Task 6) -->
+        <section id="contact" class="section contact">
+            <div class="container">
+                <h2 class="section-heading" data-scramble>Contact</h2>
+                <div class="contact-content">
+                    <p>Interested in collaborating or have a question?</p>
+                    <a href="mailto:yassermarvel8@gmail.com" class="contact-link">yassermarvel8@gmail.com</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quote (subtle placement) -->
+        <footer class="footer">
+            <div class="container">
+                <blockquote class="quote">
+                    "If you torture the data long enough, it will confess to anything"
+                    <cite>— Ronald Coase</cite>
+                </blockquote>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- Scripts -->
+    <script src="assets/js/main.js" defer></script>
+</body>
+
+</html>

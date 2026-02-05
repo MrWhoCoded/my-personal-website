@@ -1,0 +1,35 @@
+{
+  "name": "Yasser Ahmed",
+  "tagline": "Machine Learning & Data Science aspirant exploring data-driven intelligence.",
+  "email": "yassermarvel8@gmail.com",
+  "about": [
+    "I'm Yasser Ahmed, a Machine Learning and Data Science enthusiast passionate about building intelligent systems that solve real-world problems.",
+    "Currently exploring the intersection of data engineering, predictive modeling, and applied AI. I enjoy working with complex datasets and transforming them into actionable insights.",
+    "When I'm not training models or cleaning data, you'll find me experimenting with new ML frameworks, contributing to open-source projects, or diving deep into research papers."
+  ],
+  "skills": [
+    "Python",
+    "Machine Learning",
+    "Data Analysis",
+    "Deep Learning",
+    "Pandas",
+    "Scikit-learn",
+    "TensorFlow",
+    "SQL"
+  ],
+  "cliIntro": {
+    "lines": [
+      "$ whoami",
+      "yasser_ahmed",
+      "",
+      "$ cat about.txt",
+      "ML & Data Science aspirant",
+      "exploring data-driven intelligence.",
+      "",
+      "$ ls skills/",
+      "python  machine-learning  data-analysis  deep-learning",
+      "",
+      "$ echo 'Loading portfolio...'"
+    ]
+  }
+}
