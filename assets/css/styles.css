@@ -442,6 +442,33 @@ body {
     text-decoration: underline;
 }
 
+.socials {
+    margin-top: var(--space-lg);
+    display: flex;
+    justify-content: center;
+    gap: var(--space-md);
+}
+
+.social-link {
+    color: var(--color-text-muted);
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-sm);
+}
+
+.social-link:hover {
+    color: var(--color-accent);
+    transform: translateY(-2px);
+}
+
+.social-link svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
+
 /* --- Footer / Quote --- */
 .footer {
     padding: var(--space-xl) 0;
@@ -490,4 +517,50 @@ body {
     .section {
         padding: var(--space-xl) 0;
     }
+}
+
+/* --- Mobile Responsive Extra Polish (Task 7) --- */
+@media (max-width: 768px) {
+    :root {
+        --space-xl: 3rem;
+        /* Reduce vertical spacing */
+    }
+
+    .hero-name {
+        font-size: 2.5rem;
+    }
+
+    .hero-tagline {
+        font-size: 1.1rem;
+    }
+
+    .about-content {
+        justify-items: center;
+        gap: var(--space-lg);
+    }
+
+    .project-card {
+        padding: var(--space-md);
+    }
+
+    .contact-link {
+        font-size: 1rem;
+        word-break: break-all;
+    }
+
+    .social-link {
+        padding: var(--space-md);
+        /* Better (44px+) touch target */
+    }
+}
+
+/* --- Accessibility (Focus Visibility) --- */
+:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+    border-radius: 2px;
+}
+
+.skip-link:focus {
+    top: 0;
 }

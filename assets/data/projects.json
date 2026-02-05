@@ -1,11 +1,41 @@
 [
     {
-        "title": "Sample Project",
-        "description": "This is a placeholder. Projects will be auto-generated from GitHub in Task 5.",
+        "title": "My Personal Website",
+        "description": "A minimal, single-scroll personal portfolio website for an ML & Data Science aspirant.",
+        "tech": [
+            "CSS",
+            "JavaScript",
+            "HTML"
+        ],
+        "url": "https://github.com/MrWhoCoded/my-personal-website",
+        "stars": 0
+    },
+    {
+        "title": "Sleep Detector",
+        "description": "A Python script for sleep detection without using machine learning libraries, utilizing basic computer vision techniques.",
         "tech": [
             "Python",
-            "Machine Learning"
+            "OpenCV"
         ],
-        "url": "https://github.com/MrWhoCoded"
+        "url": "https://github.com/MrWhoCoded/Sleep-Detector",
+        "stars": 0
+    },
+    {
+        "title": "Attendance Project",
+        "description": "Classroom attendance management system built with Python, featuring student tracking and reporting.",
+        "tech": [
+            "Python"
+        ],
+        "url": "https://github.com/MrWhoCoded/attendence_project",
+        "stars": 0
+    },
+    {
+        "title": "Motion Security Detector",
+        "description": "A minimal security system replica for motion detection using basic image processing.",
+        "tech": [
+            "Python"
+        ],
+        "url": "https://github.com/MrWhoCoded/Motion-security-detector",
+        "stars": 0
     }
 ]

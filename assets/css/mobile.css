@@ -1,0 +1,37 @@
+/* --- Mobile Responsive Polish (Task 7) --- */
+@media (max-width: 768px) {
+    :root {
+        --space-xl: 3rem;
+        /* Reduce vertical spacing */
+    }
+
+    .hero-name {
+        font-size: 2.5rem;
+    }
+
+    .hero-tagline {
+        font-size: 1.1rem;
+    }
+
+    .about-content {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+        gap: var(--space-lg);
+    }
+
+    .project-card {
+        padding: var(--space-md);
+    }
+
+    .contact-link {
+        font-size: 1rem;
+        word-break: break-all;
+        /* Prevent email overflow */
+    }
+
+    /* Better touch targets */
+    .social-link {
+        padding: var(--space-md);
+    }
+}
