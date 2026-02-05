@@ -1,0 +1,11 @@
+[
+    {
+        "title": "Sample Project",
+        "description": "This is a placeholder. Projects will be auto-generated from GitHub in Task 5.",
+        "tech": [
+            "Python",
+            "Machine Learning"
+        ],
+        "url": "https://github.com/MrWhoCoded"
+    }
+]
