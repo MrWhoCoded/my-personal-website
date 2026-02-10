@@ -25,13 +25,23 @@ const CONFIG = {
     // Split-Flap Animation Settings (Slot Machine)
     splitFlap: {
         speed: 0.05,       // Stagger delay per char (s)
-        // Translations for sections
         translations: {
             'About': 'ಬಗ್ಗೆ',
             'Projects': 'ಯೋಜನೆಗಳು',
             'Contact': 'ಸಂಪರ್ಕ'
-            // Add more as needed
         }
+    },
+
+    // Typewriter Animation for Tagline
+    typewriter: {
+        phrases: [
+            'exploring data-driven intelligence',
+            'ಡೇಟಾ ಚಾಲಿತ ಬುದ್ಧಿಮತ್ತೆಯನ್ನು ಅನ್ವೇಷಿಸುವುದು'
+        ],
+        typeSpeed: 60,      // ms per character (typing)
+        eraseSpeed: 30,     // ms per character (erasing)
+        holdDelay: 2000,    // ms to hold text before erasing
+        pauseDelay: 500     // ms pause after erase before next phrase
     }
 };
 
@@ -84,10 +94,11 @@ function initCLIIntro() {
         mainContent.style.opacity = '1';
         document.removeEventListener('keydown', handleEsc);
 
-        // IMPORTANT: Initialize Split-Flap AFTER content is visible
+        // IMPORTANT: Initialize animations AFTER content is visible
         // otherwise getBoundingClientRect() returns 0 width.
         requestAnimationFrame(() => {
             initSplitFlapHeadings();
+            initTaglineTypewriter();
         });
     }
 
@@ -200,10 +211,14 @@ function initSplitFlapHeadings() {
                 overflow: hidden;   
                 vertical-align: bottom;
                 width: var(--w-eng);
-                transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+                transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             }
             .split-flap-wrapper.active .sf-char {
                 width: var(--w-kan);
+            }
+            .sf-space {
+                display: inline-block;
+                width: 0.3em;
             }
             .sf-reel {
                 display: flex;
@@ -212,7 +227,7 @@ function initSplitFlapHeadings() {
                 top: 0;
                 left: 0;
                 min-width: 100%;
-                transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+                transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
                 will-change: transform;
             }
             .sf-glyph {
@@ -255,7 +270,8 @@ function initSplitFlapHeadings() {
             // Check if already initialized to avoid double running
             if (heading.querySelector('.split-flap-wrapper')) return;
 
-            const originalText = heading.textContent.trim();
+            // Normalize whitespace (multi-line HTML collapses to single spaces)
+            const originalText = heading.textContent.trim().replace(/\s+/g, ' ');
             const translation = CONFIG.splitFlap.translations[originalText];
 
             if (!translation) return;
@@ -274,26 +290,30 @@ function initSplitFlapHeadings() {
             const reels = [];
 
             for (let i = 0; i < maxLen; i++) {
+                const engChar = engGraphemes[i] || '';
+                const kanChar = kanGraphemes[i] || '';
+
+                // Handle spaces as plain inline elements (no reel, no animation)
+                if (engChar === ' ' || kanChar === ' ') {
+                    const spaceEl = document.createElement('span');
+                    spaceEl.className = 'sf-space';
+                    wrapper.appendChild(spaceEl);
+                    continue;
+                }
+
                 const charEl = document.createElement('span');
                 charEl.className = 'sf-char';
 
                 const reelEl = document.createElement('div');
                 reelEl.className = 'sf-reel';
 
-                const engChar = engGraphemes[i] || '';
-                const kanChar = kanGraphemes[i] || '';
-
                 // Measure widths
                 const wEng = Math.ceil(measureWidth(engChar, heading));
                 const wKan = Math.ceil(measureWidth(kanChar, heading));
 
-                // Note: if wEng/wKan is 0 (due to empty string), css width becomes 0px.
                 charEl.style.setProperty('--w-eng', `${wEng}px`);
                 charEl.style.setProperty('--w-kan', `${wKan}px`);
 
-                // Sequence: Just [English, Kannada]
-                // This removes the "Random" spin and just creates a direct slide transition
-                // which feels cleaner and solves the spacing/random-char concerns.
                 const sequence = [engChar, kanChar];
 
                 sequence.forEach(char => {
@@ -306,8 +326,8 @@ function initSplitFlapHeadings() {
                 charEl.appendChild(reelEl);
                 wrapper.appendChild(charEl);
 
-                // Stagger
-                const delay = `${i * CONFIG.splitFlap.speed}s`;
+                // Stagger (use reel count, not char index, to avoid gaps in timing)
+                const delay = `${reels.length * CONFIG.splitFlap.speed}s`;
                 reelEl.style.transitionDelay = delay;
                 charEl.style.transitionDelay = delay;
 
@@ -363,8 +383,30 @@ async function loadContent() {
         const aboutText = document.getElementById('about-text');
         if (aboutText && content.about) aboutText.innerHTML = content.about.map(p => `<p>${p}</p>`).join('');
 
-        const skills = document.getElementById('skills');
-        if (skills && content.skills) skills.innerHTML = content.skills.map(skill => `<span>${skill}</span>`).join('');
+        const skillsGrid = document.getElementById('skills-grid');
+        if (skillsGrid && (content.languages || content.tools || content.Frameworks)) {
+            const categories = [
+                { title: 'Languages', items: content.languages },
+                { title: 'Tools', items: content.tools },
+                { title: 'Frameworks', items: content.Frameworks }
+            ];
+
+            skillsGrid.innerHTML = categories.map(cat => `
+                <div class="skills-column">
+                    <h3>${cat.title}</h3>
+                    <div class="skills-list">
+                        ${(cat.items || []).map(skill => `
+                            <div class="skill-tag" tabindex="0">
+                                <span>${skill}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+
+            // Initialize Animation Trigger
+            initSkillsBrackets();
+        }
 
         const emailLink = document.getElementById('contact-email');
         if (emailLink && content.email) { emailLink.href = `mailto:${content.email}`; emailLink.innerText = content.email; }
@@ -378,6 +420,42 @@ async function loadContent() {
             `).join('');
         }
     } catch (error) { console.warn('Could not load content.json:', error.message); }
+}
+
+// ===================================
+// Skills Bracket Animation (Task 9)
+// ===================================
+
+function initSkillsBrackets() {
+    const isTouch = window.matchMedia('(hover: none)').matches;
+    if (!isTouch) return; // Desktop uses CSS :hover
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Staggered trigger for each tag in the visible column
+                const tags = entry.target.querySelectorAll('.skill-tag');
+                tags.forEach((tag, index) => {
+                    setTimeout(() => {
+                        tag.classList.add('active');
+                        // Remove active class after some time?
+                        // User said: "settle so the user can see the effect". 
+                        // Leaving it active implies "selected" look. 
+                        // Let's keep it active or toggle it. 
+                        // "Trigger once... and then settle". 
+                        // Settle usually means finish animation. 
+                        // Since animation is "bracket expansion", keeping .active keeps brackets expanded.
+                        // I'll keep it active.
+                    }, index * 100);
+                });
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.skills-column').forEach(col => {
+        observer.observe(col);
+    });
 }
 
 async function loadProjects() {
@@ -396,9 +474,89 @@ async function loadProjects() {
     } catch (error) { console.warn('Could not load projects.json:', error.message); }
 }
 
+// ===================================
+// Tagline Typewriter (Task 8b)
+// ===================================
+
+function initTaglineTypewriter() {
+    const el = document.querySelector('[data-typewriter]');
+    if (!el) return;
+
+    const cfg = CONFIG.typewriter;
+    const phrases = cfg.phrases;
+    let phraseIndex = 0;
+    let charIndex = 0;
+    let isErasing = false;
+
+    // Inject CSS for blinking cursor
+    if (!document.getElementById('typewriter-css')) {
+        const style = document.createElement('style');
+        style.id = 'typewriter-css';
+        style.innerHTML = `
+            [data-typewriter] {
+                border-right: 2px solid var(--accent, #64ffda);
+                padding-right: 2px;
+                animation: tw-blink 0.7s step-end infinite;
+            }
+            @keyframes tw-blink {
+                50% { border-color: transparent; }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    // Helper: get graphemes for correct Kannada character handling
+    function getGraphemes(text) {
+        if (window.Intl && Intl.Segmenter) {
+            const segmenter = new Intl.Segmenter('kn', { granularity: 'grapheme' });
+            return Array.from(segmenter.segment(text)).map(s => s.segment);
+        }
+        return text.split('');
+    }
+
+    function tick() {
+        const currentPhrase = phrases[phraseIndex];
+        const graphemes = getGraphemes(currentPhrase);
+
+        // Calculate dynamic speed: longer phrases type slower per char
+        // This ensures both phrases take roughly the same total time
+        const baseTime = 2000; // Target time in ms for typing a phrase
+        const dynamicTypeSpeed = Math.max(40, baseTime / graphemes.length);
+        const dynamicEraseSpeed = dynamicTypeSpeed * 0.5;
+
+        if (!isErasing) {
+            // Typing
+            if (charIndex <= graphemes.length) {
+                el.textContent = graphemes.slice(0, charIndex).join('');
+                charIndex++;
+                setTimeout(tick, dynamicTypeSpeed);
+            } else {
+                // Done typing — hold, then start erasing
+                isErasing = true;
+                setTimeout(tick, cfg.holdDelay);
+            }
+        } else {
+            // Erasing
+            if (charIndex > 0) {
+                charIndex--;
+                el.textContent = graphemes.slice(0, charIndex).join('');
+                setTimeout(tick, dynamicEraseSpeed);
+            } else {
+                // Done erasing — move to next phrase
+                isErasing = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                setTimeout(tick, cfg.pauseDelay);
+            }
+        }
+    }
+
+    // Start after a short delay
+    setTimeout(tick, 800);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     initCLIIntro();
-    // initSplitFlapHeadings invoked by initCLIIntro after animation
+    // initSplitFlapHeadings & initTaglineTypewriter invoked by initCLIIntro after animation
     loadContent();
     loadProjects();
 });

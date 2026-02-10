@@ -217,7 +217,8 @@ body {
     animation-delay: 0.3s;
 }
 
-.hero-tagline [data-scramble] {
+.hero-tagline [data-scramble],
+.hero-tagline [data-typewriter] {
     color: var(--color-accent);
     cursor: default;
 }
@@ -337,28 +338,120 @@ body {
     margin-bottom: var(--space-md);
 }
 
-/* Skills */
-.skills {
+/* Skills (Task 9) */
+.skills-grid {
     margin-top: var(--space-xl);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 Columns: Languages, Tools, Frameworks */
+    gap: var(--space-lg);
+}
+
+.skills-column h3 {
+    font-family: var(--font-mono);
+    font-size: 1.2rem;
+    color: var(--color-accent);
+    margin-bottom: var(--space-md);
+    border-bottom: 1px solid var(--color-bg-secondary);
+    padding-bottom: 0.5rem;
+}
+
+.skills-list {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-sm);
 }
 
-.skills span {
+/* Base Skill Tag */
+.skill-tag {
+    position: relative;
     font-family: var(--font-mono);
-    font-size: 0.85rem;
-    color: var(--color-text);
-    background-color: var(--color-bg-secondary);
-    border: 1px solid var(--color-accent-subtle);
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
     padding: var(--space-xs) var(--space-md);
-    border-radius: 20px;
-    transition: all var(--transition-fast);
+    background: transparent;
+    transition: color 0.3s ease;
+    cursor: default;
 }
 
-.skills span:hover {
-    border-color: var(--color-accent);
+.skill-tag:hover,
+.skill-tag.active {
     color: var(--color-accent);
+}
+
+/* Corner Brackets Animation 
+   Concept: 4 corners. 
+   ::before, ::after on parent = Top Left, Top Right
+   ::before, ::after on child span = Bottom Left, Bottom Right
+*/
+.skill-tag::before,
+.skill-tag::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.skill-tag::before {
+    top: 0;
+    left: 0;
+    border-top-color: var(--color-accent);
+    border-left-color: var(--color-accent);
+}
+
+.skill-tag::after {
+    top: 0;
+    right: 0;
+    border-top-color: var(--color-accent);
+    border-right-color: var(--color-accent);
+}
+
+/* Inner span corners */
+.skill-tag span::before,
+.skill-tag span::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.skill-tag span::before {
+    bottom: 0;
+    left: 0;
+    border-bottom-color: var(--color-accent);
+    border-left-color: var(--color-accent);
+}
+
+.skill-tag span::after {
+    bottom: 0;
+    right: 0;
+    border-bottom-color: var(--color-accent);
+    border-right-color: var(--color-accent);
+}
+
+/* Hover / Active State: Expand Brackets */
+.skill-tag:hover::before,
+.skill-tag:hover::after,
+.skill-tag.active::before,
+.skill-tag.active::after,
+.skill-tag:hover span::before,
+.skill-tag:hover span::after,
+.skill-tag.active span::before,
+.skill-tag.active span::after {
+    width: 8px;
+    height: 8px;
+}
+
+/* Responsive: Stack on mobile */
+@media (max-width: 768px) {
+    .skills-grid {
+        grid-template-columns: 1fr;
+        /* Stack vertically */
+    }
 }
 
 /* --- Projects Section (Task 5 styling) --- */

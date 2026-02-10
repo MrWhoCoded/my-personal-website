@@ -1,7 +1,7 @@
 {
   "name": "Yasser Ahmed",
   "tagline": "Machine Learning & Data Science aspirant exploring data-driven intelligence.",
-  "email": "yassermarvel8@gmail.com",
+  "email": "yasser.ahmed.dev@gmail.com",
   "socials": [
     {
       "name": "GitHub",
@@ -26,6 +26,35 @@
     "Scikit-learn",
     "TensorFlow",
     "SQL"
+  ],
+  "languages": [
+    "Python",
+    "Java",
+    "C",
+    "SQL",
+    "JavaScript",
+    "HTML/CSS",
+    "R"
+  ],
+  "tools": [
+    "Git",
+    "GitHub",
+    "Firebase",
+    "Android Studio",
+    "MySQL Workbench",
+    "Power BI",
+    "Tableau",
+    "Vercel"
+  ],
+  "Frameworks": [
+    "TensorFlow",
+    "scikit-learn",
+    "Streamlit",
+    "Flask",
+    "Django",
+    "React",
+    "Node.js",
+    "Express"
   ],
   "cliIntro": {
     "lines": [
