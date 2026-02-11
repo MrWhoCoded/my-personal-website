@@ -99,6 +99,9 @@ function initCLIIntro() {
         requestAnimationFrame(() => {
             initSplitFlapHeadings();
             initTaglineTypewriter();
+            initGridBackground();
+            initEasterBug();
+            initScrollTransitions();
         });
     }
 
@@ -565,8 +568,286 @@ function initTaglineTypewriter() {
     // Start after a short delay
     setTimeout(tick, 800);
 }
+// ===================================
+// Easter Egg: Developer Console Greeting
+// ===================================
+
+function printConsoleEasterEgg() {
+    const asciiArt = `
+ __   __                           _    _                     _ 
+ \\ \\ / /__ _ ___ ___ ___ _ _      /_\\  | |_  _ __  ___ __| |
+  \\ V / _\` (_-<_-</ -_) '_|    / _ \\ | ' \\| '  \\/ -_) _\` |
+   |_|\\__,_/__/__/\\___|_|      /_/ \\_\\|_||_|_|_|_|\\___\\__,_|
+`;
+
+    const accentStyle = 'color: #2dd4bf; font-family: monospace; font-size: 14px; font-weight: bold;';
+    const subtleStyle = 'color: #6b7280; font-family: monospace; font-size: 11px;';
+    const statusStyle = 'color: #2dd4bf; font-family: monospace; font-size: 12px;';
+
+    console.log('%c' + asciiArt, accentStyle);
+    console.log('%c━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', subtleStyle);
+    console.log('%c  ⚡ System Status: ONLINE', statusStyle);
+    console.log('%c  🧠 ML & Data Science Portfolio', statusStyle);
+    console.log('%c  🔧 Built with: Vanilla JS • CSS3 • JSON', subtleStyle);
+    console.log('%c  📫 yasser.ahmed.dev@gmail.com', subtleStyle);
+    console.log('%c━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', subtleStyle);
+    console.log('%c  ← You found the Easter Egg! Nice detective work. 🕵️', 'color: #2dd4bf; font-style: italic; font-size: 11px;');
+}
+
+// ===================================
+// Grid Background (Task 12)
+// ===================================
+
+// ===================================
+// Grid Background (Task 12)
+// ===================================
+
+function initGridBackground() {
+    const canvas = document.getElementById('grid-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let mouseX = -9999;
+    let mouseY = -9999;
+    let animId = null;
+    const GRID_SIZE = 40;
+    const GLOW_RADIUS = 250;
+
+    function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // 1. Draw base grid (faint)
+        ctx.beginPath();
+        for (let x = GRID_SIZE; x < canvas.width; x += GRID_SIZE) {
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, canvas.height);
+        }
+        for (let y = GRID_SIZE; y < canvas.height; y += GRID_SIZE) {
+            ctx.moveTo(0, y);
+            ctx.lineTo(canvas.width, y);
+        }
+        ctx.strokeStyle = 'rgba(139, 146, 153, 0.1)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        // 2. Draw highlight grid (bright) - Masked by "flashlight"
+        ctx.save();
+        ctx.beginPath();
+        // Only draw lines near mouse to optimize? 
+        // For simplicity, redraw all (canvas handles clipping efficiently)
+        // actually, optimization: only draw lines within GLOW_RADIUS of mouse
+        const startX = Math.floor((mouseX - GLOW_RADIUS) / GRID_SIZE) * GRID_SIZE;
+        const endX = mouseX + GLOW_RADIUS;
+        const startY = Math.floor((mouseY - GLOW_RADIUS) / GRID_SIZE) * GRID_SIZE;
+        const endY = mouseY + GLOW_RADIUS;
+
+        for (let x = Math.max(GRID_SIZE, startX); x < Math.min(canvas.width, endX); x += GRID_SIZE) {
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, canvas.height);
+        }
+        for (let y = Math.max(GRID_SIZE, startY); y < Math.min(canvas.height, endY); y += GRID_SIZE) {
+            ctx.moveTo(0, y);
+            ctx.lineTo(canvas.width, y);
+        }
+
+        ctx.strokeStyle = 'rgba(45, 212, 191, 0.6)'; // Accent color
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        // 3. Mask the bright grid with radial gradient
+        ctx.globalCompositeOperation = 'destination-in';
+        const gradient = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, GLOW_RADIUS);
+        gradient.addColorStop(0, 'rgba(0, 0, 0, 1)');
+        gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.restore();
+
+        animId = requestAnimationFrame(draw);
+    }
+    draw();
+
+    // Expose stop/start for scroll transitions
+    canvas._gridStop = () => { cancelAnimationFrame(animId); animId = null; };
+    canvas._gridStart = () => { if (!animId) draw(); };
+}
+
+// ===================================
+// Easter Egg Bug (Task 12)
+// ===================================
+
+function initEasterBug() {
+    const bug = document.getElementById('easter-bug');
+    const hero = document.getElementById('hero');
+    if (!bug || !hero) return;
+
+    // --- 1. Smart Placement ---
+    bug.addEventListener('click', () => {
+        bug.classList.add('bug-caught');
+        console.log('%c🐛 Bug caught! Nice reflexes.', 'color: #2dd4bf; font-weight: bold; font-family: monospace;');
+        showToast('🪲 Bug caught! Nice reflexes.');
+    });
+
+    const heading = hero.querySelector('.hero-name');
+    if (!heading) return;
+
+    const rect = heading.getBoundingClientRect();
+    const margin = 30; // space from heading edge
+    const edgePad = 40; // min distance from viewport edge
+
+    // Pick random quadrant
+    const quadrants = [
+        { x: rect.left - margin - 20, y: rect.top - margin - 20 },       // top-left
+        { x: rect.right + margin, y: rect.top - margin - 20 },           // top-right
+        { x: rect.left - margin - 20, y: rect.bottom + margin },         // bottom-left
+        { x: rect.right + margin, y: rect.bottom + margin }              // bottom-right
+    ];
+    const pos = quadrants[Math.floor(Math.random() * quadrants.length)];
+
+    // Clamp to viewport
+    const clampedX = Math.max(edgePad, Math.min(window.innerWidth - edgePad - 20, pos.x));
+    const clampedY = Math.max(edgePad, Math.min(window.innerHeight - edgePad - 20, pos.y));
+
+    bug.style.left = clampedX + 'px';
+    bug.style.top = clampedY + 'px';
+
+    // --- 2. State ---
+    let discovered = false;
+    const bugX = clampedX + 10; // center of bug
+    const bugY = clampedY + 10;
+    const REVEAL_DIST = 200;
+    const GLOW_DIST = 80;
+
+    // --- 3. Proximity Logic ---
+    document.addEventListener('mousemove', (e) => {
+        if (bug.classList.contains('bug-hidden')) return;
+
+        const dx = e.clientX - bugX;
+        const dy = e.clientY - bugY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < REVEAL_DIST) {
+            // Fade in proportionally
+            const proximity = 1 - (dist / REVEAL_DIST);
+            bug.style.opacity = Math.min(1, proximity * 1.5);
+
+            if (!discovered) {
+                discovered = true;
+                bug.classList.remove('bug-pulse');
+            }
+
+            // Strong glow when very close
+            if (dist < GLOW_DIST) {
+                bug.classList.add('bug-glow');
+            } else {
+                bug.classList.remove('bug-glow');
+            }
+        } else {
+            // If pulse is active, keep it faintly visible
+            if (bug.classList.contains('bug-pulse')) {
+                bug.style.opacity = '0.5';
+            } else {
+                bug.style.opacity = '0';
+            }
+            bug.classList.remove('bug-glow');
+        }
+    });
+
+    // --- 4. Discoverability Pulse (6s timeout) ---
+    setTimeout(() => {
+        if (!discovered && !bug.classList.contains('bug-hidden')) {
+            bug.classList.add('bug-pulse');
+            bug.style.opacity = '0.3'; // faint visibility for pulse
+        }
+    }, 6000);
+
+    // Expose hide/show for scroll transitions
+    bug._hide = () => { bug.classList.add('bug-hidden'); };
+    bug._show = () => {
+        bug.classList.remove('bug-hidden');
+        if (!discovered) {
+            bug.style.opacity = '0';
+        }
+    };
+}
+
+// ===================================
+// Toast Notification (Debug/Feedback)
+// ===================================
+
+function showToast(message) {
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    // Trigger reflow
+    toast.offsetHeight;
+
+    toast.classList.add('show');
+
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            toast.remove();
+        }, 300);
+    }, 3000);
+}
+
+// ===================================
+// Scroll Transitions (Task 12)
+// ===================================
+
+function initScrollTransitions() {
+    const canvas = document.getElementById('grid-canvas');
+    const bug = document.getElementById('easter-bug');
+    const about = document.getElementById('about');
+    if (!about) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            // If About is entering viewport (scrolling down) -> Hide Grid/Bug
+            if (entry.isIntersecting) {
+                if (canvas) {
+                    canvas.classList.add('grid-hidden');
+                    if (canvas._gridStop) canvas._gridStop();
+                }
+                if (bug && bug._hide) bug._hide();
+            } else {
+                // If About is NOT intersecting
+                // We need to check if we are ABOVE or BELOW it.
+                // But generally for this single-page site, not intersecting means we are either at top or way below.
+                // If boundingClientRect.top is positive, we are above it (at Hero).
+                if (entry.boundingClientRect.top > 0) {
+                    if (canvas) {
+                        canvas.classList.remove('grid-hidden');
+                        if (canvas._gridStart) canvas._gridStart();
+                    }
+                    if (bug && bug._show) bug._show();
+                }
+            }
+        });
+    }, {
+        threshold: 0.1 // Interact when 10% of About is visible
+    });
+
+    observer.observe(about);
+}
 
 document.addEventListener('DOMContentLoaded', () => {
+    printConsoleEasterEgg();
     initCLIIntro();
     // initSplitFlapHeadings & initTaglineTypewriter invoked by initCLIIntro after animation
     loadContent();
