@@ -1,33 +1,39 @@
 [
     {
-        "title": "My Personal Website",
-        "description": "A minimal, single-scroll personal portfolio website for an ML & Data Science aspirant.",
+        "title": "ClassLogger",
+        "description": "AI-powered mobile attendance system that prevents proxy marking using facial recognition and classroom WiFi verification. Built with an Android (Kotlin) frontend and a Python FastAPI backend using FaceNet embeddings and KNN-based identity matching.",
         "tech": [
-            "CSS",
-            "JavaScript",
-            "HTML"
+            "Kotlin",
+            "Python",
+            "FastAPI",
+            "Firebase",
+            "OpenCV",
+            "FaceNet"
         ],
-        "url": "https://github.com/MrWhoCoded/my-personal-website",
-        "stars": 0
+        "url": "https://github.com/Nazeef1/ClassLogger"
     },
     {
-        "title": "Sleep Detector",
-        "description": "A Python script for sleep detection without using machine learning libraries, utilizing basic computer vision techniques.",
+        "title": "credit-card-defaults",
+        "description": "Credit risk prediction model built on the UCI dataset with a focus on business impact over raw accuracy. Engineered behavioral features from repayment history and optimized a Random Forest with threshold tuning to improve default recall to 61%, prioritizing early risk detection.",
         "tech": [
             "Python",
-            "OpenCV"
+            "scikit-learn",
+            "Pandas",
+            "NumPy",
+            "Random Forest"
         ],
-        "url": "https://github.com/MrWhoCoded/Sleep-Detector",
-        "stars": 0
+        "url": "https://github.com/MrWhoCoded/credit-card-defaults"
     },
     {
-        "title": "Attendance Project",
-        "description": "Classroom attendance management system built with Python, featuring student tracking and reporting.",
+        "title": "UIDAI-Hackathon",
+        "description": "Interactive national-level dashboard built for UIDAI Hackathon 2026 to measure Digital Equity across 645+ districts. Features drill-down analytics, risk classification, and AI-driven district recommendations using a Streamlit-based data visualization system.",
         "tech": [
-            "Python"
+            "Python",
+            "Streamlit",
+            "Pandas",
+            "Plotly"
         ],
-        "url": "https://github.com/MrWhoCoded/attendence_project",
-        "stars": 0
+        "url": "https://github.com/kvkushal/UIDAI-Hackathon"
     },
     {
         "title": "Motion Security Detector",
@@ -35,7 +41,6 @@
         "tech": [
             "Python"
         ],
-        "url": "https://github.com/MrWhoCoded/Motion-security-detector",
-        "stars": 0
+        "url": "https://github.com/MrWhoCoded/Motion-security-detector"
     }
 ]

@@ -358,7 +358,8 @@ body {
 
 .skills-list {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    /* Vertical stack */
     gap: var(--space-sm);
 }
 
@@ -372,6 +373,8 @@ body {
     background: transparent;
     transition: color 0.3s ease;
     cursor: default;
+    width: fit-content;
+    /* Needed for brackets to frame text tightly */
 }
 
 .skill-tag:hover,
@@ -379,71 +382,75 @@ body {
     color: var(--color-accent);
 }
 
-/* Corner Brackets Animation 
-   Concept: 4 corners. 
-   ::before, ::after on parent = Top Left, Top Right
-   ::before, ::after on child span = Bottom Left, Bottom Right
-*/
-.skill-tag::before,
-.skill-tag::after {
-    content: '';
+/* --- Corner Brackets (Center-to-Corner Expansion) --- */
+.bracket {
     position: absolute;
-    width: 0;
-    height: 0;
-    border: 1px solid transparent;
-    transition: all 0.3s ease;
-}
-
-.skill-tag::before {
-    top: 0;
-    left: 0;
-    border-top-color: var(--color-accent);
-    border-left-color: var(--color-accent);
-}
-
-.skill-tag::after {
-    top: 0;
-    right: 0;
-    border-top-color: var(--color-accent);
-    border-right-color: var(--color-accent);
-}
-
-/* Inner span corners */
-.skill-tag span::before,
-.skill-tag span::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 0;
-    border: 1px solid transparent;
-    transition: all 0.3s ease;
-}
-
-.skill-tag span::before {
-    bottom: 0;
-    left: 0;
-    border-bottom-color: var(--color-accent);
-    border-left-color: var(--color-accent);
-}
-
-.skill-tag span::after {
-    bottom: 0;
-    right: 0;
-    border-bottom-color: var(--color-accent);
-    border-right-color: var(--color-accent);
-}
-
-/* Hover / Active State: Expand Brackets */
-.skill-tag:hover::before,
-.skill-tag:hover::after,
-.skill-tag.active::before,
-.skill-tag.active::after,
-.skill-tag:hover span::before,
-.skill-tag:hover span::after,
-.skill-tag.active span::before,
-.skill-tag.active span::after {
     width: 8px;
     height: 8px;
+    border: 2px solid var(--color-accent);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: none;
+    /* Ensure clicks pass through */
+}
+
+/* Initial positions (centered) */
+.bracket.top-left {
+    top: 50%;
+    left: 50%;
+    border-right: none;
+    border-bottom: none;
+}
+
+.bracket.top-right {
+    top: 50%;
+    right: 50%;
+    border-left: none;
+    border-bottom: none;
+}
+
+.bracket.bottom-left {
+    bottom: 50%;
+    left: 50%;
+    border-right: none;
+    border-top: none;
+}
+
+.bracket.bottom-right {
+    bottom: 50%;
+    right: 50%;
+    border-left: none;
+    border-top: none;
+}
+
+/* Hover / Active State: Expand via Positioning */
+.skill-tag:hover .bracket,
+.skill-tag.active .bracket {
+    opacity: 1;
+}
+
+.skill-tag:hover .bracket.top-left,
+.skill-tag.active .bracket.top-left {
+    top: 0;
+    left: 0;
+}
+
+.skill-tag:hover .bracket.top-right,
+.skill-tag.active .bracket.top-right {
+    top: 0;
+    right: 0;
+}
+
+.skill-tag:hover .bracket.bottom-left,
+.skill-tag.active .bracket.bottom-left {
+    bottom: 0;
+    left: 0;
+}
+
+.skill-tag:hover .bracket.bottom-right,
+.skill-tag.active .bracket.bottom-right {
+    bottom: 0;
+    right: 0;
 }
 
 /* Responsive: Stack on mobile */
@@ -454,30 +461,67 @@ body {
     }
 }
 
-/* --- Projects Section (Task 5 styling) --- */
+/* --- Projects Section (Task 11 — Upgraded) --- */
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: var(--space-lg);
 }
 
+/* --- Card Base --- */
 .project-card {
+    position: relative;
     background-color: var(--color-bg-secondary);
-    border: 1px solid transparent;
+    border: 1px solid rgba(45, 212, 191, 0.06);
     border-radius: var(--border-radius);
-    padding: var(--space-lg);
-    transition: all var(--transition-base);
+    padding: var(--space-lg) var(--space-lg) var(--space-md);
+    transition: transform 250ms ease-out, box-shadow 250ms ease-out, border-color 250ms ease-out;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 
-.project-card:hover {
-    border-color: var(--color-accent-subtle);
-    transform: translateY(-2px);
+.project-card:hover,
+.project-card:focus-within {
+    transform: translateY(-6px);
+    border-color: rgba(45, 212, 191, 0.15);
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.25),
+        0 2px 8px rgba(45, 212, 191, 0.06);
+}
+
+/* Accent top-line on hover */
+.project-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: var(--space-md);
+    right: var(--space-md);
+    height: 2px;
+    background: var(--color-accent);
+    border-radius: 0 0 2px 2px;
+    opacity: 0;
+    transition: opacity 250ms ease-out;
+}
+
+.project-card:hover::before,
+.project-card:focus-within::before {
+    opacity: 1;
+}
+
+/* --- Card Header (Title + GitHub Link) --- */
+.project-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-sm);
 }
 
 .project-title {
-    font-size: 1.25rem;
+    font-size: 1.3rem;
     font-weight: 600;
-    margin-bottom: var(--space-sm);
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+    margin: 0;
 }
 
 .project-title a {
@@ -490,26 +534,90 @@ body {
     color: var(--color-accent);
 }
 
-.project-desc {
+/* GitHub Icon Button */
+.project-link-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    border-radius: var(--border-radius);
     color: var(--color-text-muted);
-    font-size: 0.95rem;
-    margin-bottom: var(--space-md);
-    line-height: 1.6;
+    transition: color var(--transition-fast), background-color var(--transition-fast);
 }
 
+.project-link-btn:hover {
+    color: var(--color-accent);
+    background-color: var(--color-accent-subtle);
+}
+
+.project-link-btn svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
+/* --- Description --- */
+.project-desc {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    margin-bottom: var(--space-md);
+    line-height: 1.65;
+}
+
+/* --- Tech Stack Pills --- */
 .project-tech {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-sm);
+    gap: 6px;
+    margin-bottom: var(--space-md);
 }
 
 .project-tech span {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: var(--color-accent);
-    background-color: var(--color-accent-subtle);
-    padding: 2px 8px;
-    border-radius: 3px;
+    background-color: rgba(45, 212, 191, 0.08);
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(45, 212, 191, 0.12);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+}
+
+/* --- Inline "View Project" Button (appears on hover) --- */
+.project-action {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    text-decoration: none;
+    padding: 6px 16px;
+    border: 1px solid var(--color-accent);
+    border-radius: var(--border-radius);
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 250ms ease-out, transform 250ms ease-out, background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.project-card:hover .project-action,
+.project-card:focus-within .project-action {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.project-action:hover {
+    background-color: var(--color-accent);
+    color: var(--color-bg);
+}
+
+.project-action svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
 }
 
 /* --- Contact Section (Task 6 styling) --- */
