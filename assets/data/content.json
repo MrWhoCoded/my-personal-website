@@ -17,44 +17,41 @@
     "Currently exploring the intersection of data engineering, predictive modeling, and applied AI. I enjoy working with complex datasets and transforming them into actionable insights.",
     "When I'm not training models or cleaning data, you'll find me experimenting with new ML frameworks, contributing to open-source projects, or diving deep into research papers."
   ],
-  "skills": [
-    "Python",
-    "Machine Learning",
-    "Data Analysis",
-    "Deep Learning",
-    "Pandas",
-    "Scikit-learn",
-    "TensorFlow",
-    "SQL"
-  ],
-  "languages": [
-    "Python",
-    "Java",
-    "C",
-    "SQL",
-    "JavaScript",
-    "HTML/CSS",
-    "R"
-  ],
-  "tools": [
-    "Git",
-    "GitHub",
-    "Firebase",
-    "Android Studio",
-    "MySQL Workbench",
-    "Power BI",
-    "Tableau",
-    "Vercel"
-  ],
-  "Frameworks": [
-    "TensorFlow",
-    "scikit-learn",
-    "Streamlit",
-    "Flask",
-    "Django",
-    "React",
-    "Node.js",
-    "Express"
+  "directories": [
+    {
+      "path": "~/runtimes_and_logic",
+      "items": [
+        { "name": "Python", "permissions": "-rwxr-xr-x", "size": "4.2K" },
+        { "name": "SQL", "permissions": "-rw-r--r--", "size": "2.1K" },
+        { "name": "Java", "permissions": "-rwxr-xr-x", "size": "3.8K" },
+        { "name": "C", "permissions": "-rwxr-xr-x", "size": "1.9K" },
+        { "name": "R", "permissions": "-rw-r--r--", "size": "2.5K" },
+        { "name": "JavaScript", "permissions": "-rwxr-xr-x", "size": "3.1K" },
+        { "name": "Kotlin", "permissions": "-rwxr-xr-x", "size": "2.7K" }
+      ]
+    },
+    {
+      "path": "~/ml_data_engine",
+      "items": [
+        { "name": "scikit-learn", "permissions": "-rwxr-xr-x", "size": "8.4K" },
+        { "name": "FaceNet", "permissions": "-rwxr-xr-x", "size": "12.1K" },
+        { "name": "MTCNN", "permissions": "-rwxr-xr-x", "size": "6.3K" },
+        { "name": "Streamlit", "permissions": "-rwxr-xr-x", "size": "5.7K" },
+        { "name": "Power BI", "permissions": "-rw-r--r--", "size": "9.2K" },
+        { "name": "Tableau", "permissions": "-rw-r--r--", "size": "7.8K" }
+      ]
+    },
+    {
+      "path": "~/infrastructure_v0.2",
+      "items": [
+        { "name": "Firebase", "permissions": "-rwxr-xr-x", "size": "4.1K", "status": "DEPLOYED" },
+        { "name": "Git", "permissions": "-rwxr-xr-x", "size": "3.2K" },
+        { "name": "Android Studio", "permissions": "-rwxr-xr-x", "size": "11.5K" },
+        { "name": "AWS", "permissions": "-rw-------", "size": "6.8K", "status": "LEARNING" },
+        { "name": "Docker", "permissions": "-rw-------", "size": "5.4K", "status": "LEARNING" },
+        { "name": "Ubuntu/WSL", "permissions": "-rwxr-xr-x", "size": "2.9K", "status": "ACTIVE" }
+      ]
+    }
   ],
   "cliIntro": {
     "lines": [

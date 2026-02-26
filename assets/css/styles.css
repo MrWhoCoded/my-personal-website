@@ -35,7 +35,7 @@
     --space-md: 1rem;
     --space-lg: 2rem;
     --space-xl: 4rem;
-    --space-2xl: 8rem;
+    --space-2xl: 5rem;
 
     /* Transitions */
     --transition-fast: 150ms ease;
@@ -215,7 +215,159 @@ body {
 
 /* --- Sections --- */
 .section {
-    padding: var(--space-2xl) 0;
+    padding: var(--space-xl) 0;
+}
+
+/* --- Top Navigation Bar (Task 16) --- */
+.top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 55px;
+    background: rgba(10, 10, 10, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(45, 212, 191, 0.08);
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-inner {
+    width: 100%;
+    max-width: var(--max-width);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--space-lg);
+    gap: var(--space-md);
+}
+
+/* User prompt (left) */
+.nav-prompt {
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    color: var(--color-accent);
+    opacity: 0.6;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Nav links (center) */
+.nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.nav-link {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: 2px;
+    position: relative;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+}
+
+.nav-link::before {
+    content: '[ ';
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.nav-link::after {
+    content: ' ]';
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--color-accent);
+}
+
+.nav-link:hover::before,
+.nav-link:hover::after,
+.nav-link.active::before,
+.nav-link.active::after {
+    opacity: 1;
+}
+
+/* Active scroll-spy underscore */
+.nav-link.active::after {
+    content: ' ]_';
+    opacity: 1;
+    color: var(--color-accent);
+    animation: cursor-blink 1s step-end infinite;
+}
+
+@keyframes cursor-blink {
+    50% {
+        opacity: 0.3;
+    }
+}
+
+/* EXPORT CV button (right) */
+.nav-export {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--color-accent);
+    text-decoration: none;
+    padding: 4px 10px;
+    border: 1px solid rgba(45, 212, 191, 0.3);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.nav-export:hover {
+    background: rgba(45, 212, 191, 0.1);
+    border-color: var(--color-accent);
+    box-shadow: 0 0 8px rgba(45, 212, 191, 0.15);
+}
+
+.export-icon {
+    font-size: 1.05rem;
+    line-height: 1;
+}
+
+/* Offset page content for fixed nav */
+.hero {
+    padding-top: 55px;
+}
+
+/* Mobile: hide prompt, shrink links */
+@media (max-width: 768px) {
+    .nav-prompt {
+        display: none;
+    }
+
+    .nav-link {
+        font-size: 0.65rem;
+        padding: var(--space-xs) 4px;
+    }
+
+    .export-text {
+        display: none;
+    }
+
+    .nav-export {
+        padding: 4px 8px;
+    }
+
+    .export-icon {
+        font-size: 1rem;
+    }
 }
 
 /* --- CLI Intro (Task 1 styling) --- */
@@ -403,9 +555,9 @@ body {
 /* --- Section Headings (Task 3 styling) --- */
 .section-heading {
     font-family: var(--font-heading);
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-size: clamp(1.5rem, 3.5vw, 2.25rem);
     font-weight: 400;
-    margin-bottom: var(--space-xl);
+    margin-bottom: var(--space-lg);
     position: relative;
     display: inline-block;
     cursor: default;
@@ -458,50 +610,179 @@ body {
     margin-bottom: var(--space-md);
 }
 
-/* Skills (Task 9) */
+/* Skills / System Environment (Task 15) */
+.sys-env-title {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    color: var(--color-accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: var(--space-lg);
+    margin-bottom: var(--space-md);
+    opacity: 0.7;
+}
+
 .skills-grid {
-    margin-top: var(--space-xl);
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    /* 3 Columns: Languages, Tools, Frameworks */
     gap: var(--space-lg);
 }
 
-.skills-column h3 {
-    font-family: var(--font-heading);
-    font-size: 1.2rem;
-    color: var(--color-accent);
-    margin-bottom: var(--space-md);
-    border-bottom: 1px solid var(--color-bg-secondary);
-    padding-bottom: 0.5rem;
-    font-weight: 400;
-    /* Share Tech Mono */
+/* --- Directory Column --- */
+.skills-column {
+    background: rgba(17, 24, 32, 0.4);
+    border: 1px solid rgba(45, 212, 191, 0.08);
+    border-radius: var(--border-radius);
+    padding: var(--space-md);
+    transition: border-color 0.3s ease;
 }
 
+.skills-column:hover {
+    border-color: rgba(45, 212, 191, 0.2);
+}
+
+/* Directory path header (e.g. $ ls -la ~/runtimes_and_logic) */
+.dir-header {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    color: var(--color-accent);
+    margin-bottom: var(--space-sm);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid rgba(45, 212, 191, 0.15);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dir-header .prompt {
+    color: var(--color-text-muted);
+    opacity: 0.6;
+}
+
+/* ls -la column headers */
+.ls-header {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: var(--space-sm);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--color-text-muted);
+    opacity: 0.4;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0 var(--space-xs);
+    margin-bottom: var(--space-xs);
+}
+
+/* Separator line under header */
+.ls-separator {
+    border: none;
+    border-top: 1px dashed rgba(139, 146, 153, 0.15);
+    margin: var(--space-xs) 0;
+}
+
+/* --- Item list --- */
 .skills-list {
     display: flex;
     flex-direction: column;
-    /* Vertical stack */
-    gap: var(--space-sm);
+    gap: 2px;
 }
 
-/* Base Skill Tag */
+/* --- Individual ls row (wraps skill-tag) --- */
+.ls-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: var(--space-sm);
+    align-items: center;
+    padding: 2px var(--space-xs);
+    border-radius: 2px;
+    transition: background-color 0.2s ease;
+}
+
+.ls-row:hover {
+    background: rgba(45, 212, 191, 0.04);
+}
+
+.ls-row .ls-perms {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    opacity: 0.35;
+    order: -1;
+    display: none;
+    /* Hidden on small screens, shown on wider */
+}
+
+.ls-row .ls-size {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    opacity: 0.5;
+    text-align: right;
+    display: none;
+    /* Hidden on small screens */
+}
+
+/* Base Skill Tag (PRESERVED from Task 9) */
 .skill-tag {
     position: relative;
-    font-family: var(--font-mono);
-    font-size: 0.95rem;
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
     color: var(--color-text-muted);
-    padding: var(--space-xs) var(--space-md);
+    padding: var(--space-xs) var(--space-sm);
     background: transparent;
     transition: color 0.3s ease;
     cursor: default;
     width: fit-content;
-    /* Needed for brackets to frame text tightly */
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
 }
 
 .skill-tag:hover,
 .skill-tag.active {
     color: var(--color-accent);
+}
+
+/* --- Status Tags --- */
+.status-tag {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.08em;
+    padding: 1px 6px;
+    border-radius: 2px;
+    border: 1px solid;
+    text-transform: uppercase;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.status-tag--learning {
+    color: rgba(45, 212, 191, 0.45);
+    border-color: rgba(45, 212, 191, 0.2);
+    animation: pulse-border 2s ease-in-out infinite;
+}
+
+.status-tag--active {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.status-tag--deployed {
+    color: #4ade80;
+    border-color: rgba(74, 222, 128, 0.5);
+}
+
+@keyframes pulse-border {
+
+    0%,
+    100% {
+        border-color: rgba(45, 212, 191, 0.15);
+    }
+
+    50% {
+        border-color: rgba(45, 212, 191, 0.4);
+    }
 }
 
 /* --- Corner Brackets (Center-to-Corner Expansion) --- */
@@ -513,7 +794,6 @@ body {
     opacity: 0;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     pointer-events: none;
-    /* Ensure clicks pass through */
 }
 
 /* Initial positions (centered) */
@@ -573,6 +853,23 @@ body {
 .skill-tag.active .bracket.bottom-right {
     bottom: 0;
     right: 0;
+}
+
+/* Show permissions/size columns on wider screens */
+@media (min-width: 1100px) {
+
+    .ls-row .ls-perms,
+    .ls-row .ls-size {
+        display: block;
+    }
+
+    .ls-header {
+        display: grid;
+    }
+
+    .ls-row {
+        grid-template-columns: auto 1fr auto;
+    }
 }
 
 /* Responsive: Stack on mobile */
@@ -847,8 +1144,12 @@ body {
 /* --- Mobile Responsive Extra Polish (Task 7) --- */
 @media (max-width: 768px) {
     :root {
-        --space-xl: 3rem;
-        /* Reduce vertical spacing */
+        --space-xl: 2rem;
+        /* Tighter vertical spacing on mobile */
+    }
+
+    .section {
+        padding: var(--space-lg) 0;
     }
 
     .hero-name {
