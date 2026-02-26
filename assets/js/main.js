@@ -387,26 +387,37 @@ async function loadContent() {
         if (aboutText && content.about) aboutText.innerHTML = content.about.map(p => `<p>${p}</p>`).join('');
 
         const skillsGrid = document.getElementById('skills-grid');
-        if (skillsGrid && (content.languages || content.tools || content.Frameworks)) {
-            const categories = [
-                { title: 'Languages', items: content.languages },
-                { title: 'Tools', items: content.tools },
-                { title: 'Frameworks', items: content.Frameworks }
-            ];
-
-            skillsGrid.innerHTML = categories.map(cat => `
+        if (skillsGrid && content.directories) {
+            skillsGrid.innerHTML = content.directories.map(dir => `
                 <div class="skills-column">
-                    <h3>${cat.title}</h3>
+                    <div class="dir-header">
+                        <span class="prompt">$ ls -la </span>${dir.path}
+                    </div>
+                    <div class="ls-header">
+                        <span>NAME</span>
+                        <span>SIZE</span>
+                        <span>PERMS</span>
+                    </div>
+                    <hr class="ls-separator">
                     <div class="skills-list">
-                        ${(cat.items || []).map(skill => `
-                            <div class="skill-tag" tabindex="0">
-                                <span>${skill}</span>
-                                <div class="bracket top-left"></div>
-                                <div class="bracket top-right"></div>
-                                <div class="bracket bottom-left"></div>
-                                <div class="bracket bottom-right"></div>
-                            </div>
-                        `).join('')}
+                        ${(dir.items || []).map(item => {
+                const statusHtml = item.status
+                    ? `<span class="status-tag status-tag--${item.status.toLowerCase()}">${item.status}</span>`
+                    : '';
+                return `
+                            <div class="ls-row">
+                                <div class="skill-tag" tabindex="0">
+                                    <span>${item.name}</span>
+                                    ${statusHtml}
+                                    <div class="bracket top-left"></div>
+                                    <div class="bracket top-right"></div>
+                                    <div class="bracket bottom-left"></div>
+                                    <div class="bracket bottom-right"></div>
+                                </div>
+                                <span class="ls-size">${item.size || ''}</span>
+                                <span class="ls-perms">${item.permissions || ''}</span>
+                            </div>`;
+            }).join('')}
                     </div>
                 </div>
             `).join('');
@@ -807,6 +818,35 @@ function showToast(message) {
 }
 
 // ===================================
+// Navigation Scroll-Spy (Task 16)
+// ===================================
+
+function initScrollSpy() {
+    const navLinks = document.querySelectorAll('.nav-link[data-section]');
+    if (!navLinks.length) return;
+
+    const sections = ['hero', 'about', 'projects', 'contact'];
+    const sectionEls = sections.map(id => document.getElementById(id)).filter(Boolean);
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.id;
+                navLinks.forEach(link => {
+                    const matches = link.getAttribute('data-section') === id;
+                    link.classList.toggle('active', matches);
+                });
+            }
+        });
+    }, {
+        rootMargin: '-20% 0px -70% 0px',
+        threshold: 0
+    });
+
+    sectionEls.forEach(section => observer.observe(section));
+}
+
+// ===================================
 // Scroll Transitions (Task 12)
 // ===================================
 
@@ -852,4 +892,5 @@ document.addEventListener('DOMContentLoaded', () => {
     // initSplitFlapHeadings & initTaglineTypewriter invoked by initCLIIntro after animation
     loadContent();
     loadProjects();
+    initScrollSpy();
 });
