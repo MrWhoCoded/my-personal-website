@@ -828,6 +828,138 @@ function showToast(message) {
 }
 
 // ===================================
+// System Layers (Task 18)
+// ===================================
+
+function initSystemLayers() {
+    const mainContent = document.getElementById('main-content');
+    const gutter = document.getElementById('sys-gutter');
+    const watermarks = document.querySelectorAll('.watermark');
+    const hero = document.getElementById('hero');
+    if (!mainContent || !hero) return;
+
+    // Virtual gutter: only render visible lines, update text on scroll
+    const lineHeight = 20;
+    const visibleLines = Math.ceil(window.innerHeight / lineHeight) + 2;
+    const gutterSpans = [];
+
+    if (gutter) {
+        for (let i = 0; i < visibleLines; i++) {
+            const span = document.createElement('span');
+            span.className = 'gutter-line';
+            span.textContent = String(i + 1).padStart(3, '0');
+            gutter.appendChild(span);
+            gutterSpans.push(span);
+        }
+    }
+
+    // Scroll handler: update gutter numbers + parallax watermarks
+    let ticking = false;
+    function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+            const scrollY = window.scrollY;
+
+            // Gutter: update line numbers based on scroll position
+            if (gutterSpans.length) {
+                const firstLine = Math.floor(scrollY / lineHeight) + 1;
+                const offset = -(scrollY % lineHeight);
+                gutter.style.paddingTop = offset + 'px';
+                for (let i = 0; i < gutterSpans.length; i++) {
+                    gutterSpans[i].textContent = String(firstLine + i).padStart(3, '0');
+                }
+            }
+
+            // Watermarks: subtle parallax (move slower than scroll)
+            watermarks.forEach((wm, i) => {
+                const speed = 0.05 + (i * 0.03);
+                const baseRotation = wm.classList.contains('wm-1') ? -12
+                    : wm.classList.contains('wm-2') ? 8 : -5;
+                wm.style.transform = `rotate(${baseRotation}deg) translateY(${scrollY * speed}px)`;
+            });
+
+            ticking = false;
+        });
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // Observer: toggle layers-active once user scrolls past hero
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) {
+                // Hero is out of view → show layers
+                mainContent.classList.add('layers-active');
+            } else if (entry.intersectionRatio > 0.8) {
+                // Hero is mostly visible → hide layers
+                mainContent.classList.remove('layers-active');
+            }
+        });
+    }, {
+        threshold: [0, 0.8]
+    });
+
+    observer.observe(hero);
+}
+
+// ===================================
+// Certifications (Task 17)
+// ===================================
+
+async function loadCertifications() {
+    try {
+        const response = await fetch('assets/data/certifications.json');
+        if (!response.ok) throw new Error('Certifications not found');
+        const certs = await response.json();
+        const matrix = document.getElementById('cert-matrix');
+        if (!matrix || !certs.length) return;
+
+        matrix.innerHTML = certs.map(cert => {
+            const isComing = cert.status === 'COMING SOON...';
+            const statusClass = isComing ? 'cert-status--coming' : 'cert-status--certified';
+            const cardClass = isComing ? 'cert-card cert-card--coming' : 'cert-card';
+            const verifyHtml = !isComing && cert.verify_url && cert.verify_url !== '#'
+                ? `<a href="${cert.verify_url}" target="_blank" rel="noopener noreferrer" class="cert-verify">verify →</a>`
+                : '';
+
+            return `
+            <article class="${cardClass}" tabindex="0">
+                <div class="cert-badge">
+                    <img src="${cert.badge_url}" alt="${cert.title} badge" loading="lazy">
+                </div>
+                <div class="cert-info">
+                    <h3 class="cert-title">${cert.title}</h3>
+                    <p class="cert-issuer">${cert.issuer}</p>
+                    <p class="cert-id">${cert.id}</p>
+                    <div class="cert-meta">
+                        <span class="cert-status ${statusClass}">${cert.status}</span>
+                        <span class="cert-year">${cert.year}</span>
+                    </div>
+                    ${verifyHtml}
+                </div>
+            </article>`;
+        }).join('');
+
+        // Staggered scroll-in animation
+        const cards = matrix.querySelectorAll('.cert-card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const idx = Array.from(cards).indexOf(entry.target);
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, idx * 150);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        cards.forEach(card => observer.observe(card));
+    } catch (error) { console.warn('Could not load certifications.json:', error.message); }
+}
+
+// ===================================
 // Navigation Scroll-Spy (Task 16)
 // ===================================
 
@@ -835,7 +967,7 @@ function initScrollSpy() {
     const navLinks = document.querySelectorAll('.nav-link[data-section]');
     if (!navLinks.length) return;
 
-    const sections = ['hero', 'about', 'projects', 'contact'];
+    const sections = ['hero', 'about', 'projects', 'certifications', 'contact'];
     const sectionEls = sections.map(id => document.getElementById(id)).filter(Boolean);
 
     const observer = new IntersectionObserver((entries) => {
@@ -902,5 +1034,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // initSplitFlapHeadings & initTaglineTypewriter invoked by initCLIIntro after animation
     loadContent();
     loadProjects();
+    loadCertifications();
     initScrollSpy();
+    initSystemLayers();
 });

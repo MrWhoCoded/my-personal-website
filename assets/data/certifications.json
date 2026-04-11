@@ -1,0 +1,20 @@
+[
+    {
+        "title": "Nutanix Certified Associate",
+        "issuer": "Nutanix",
+        "id": "NCA-2026-001",
+        "badge_url": "assets/nutanix-certified-associate-6.png",
+        "verify_url": "https://www.credly.com/badges/0020068b-3d42-4f09-88d1-604eb0578c8b/public_url",
+        "status": "CERTIFIED",
+        "year": "2026"
+    },
+    {
+        "title": "COMING SOON...",
+        "issuer": "COMING SOON...",
+        "id": "NAN",
+        "badge_url": "assets/404.png",
+        "verify_url": "#",
+        "status": "COMING SOON...",
+        "year": "2026"
+    }
+]
