@@ -9,58 +9,140 @@
     },
     {
       "name": "LinkedIn",
-      "url": "#"
+      "url": "https://www.linkedin.com/in/yasser-ahmed-63660021a/"
     }
   ],
   "about": [
-    "I'm Yasser Ahmed, a Machine Learning and Data Science enthusiast passionate about building intelligent systems that solve real-world problems.",
-    "Currently exploring the intersection of data engineering, predictive modeling, and applied AI. I enjoy working with complex datasets and transforming them into actionable insights.",
-    "When I'm not training models or cleaning data, you'll find me experimenting with new ML frameworks, contributing to open-source projects, or diving deep into research papers."
+    "Detail oriented Computer Science student as B.M.S College of Engineering, Bangalore.",
+    "I have hands on experience with data analytics, Machine and Deep learning and a strong background in Computer Architecture, Operating Systems and Distributed Systems. I have been enthusiastic about coding since back in 6th grade.",
+    "My focus goes beyond just accuracy, I focus on understanding the problem and evaluating the perfomrance through real-world meaningful insights like false-positives, false-negetives and the real-world impact.",
+    "I am have worked on a few projects that I am very passionate to talk about, which you can check out in the projects section.",
+    "Currently I am seeking for a role in productive, fast-paced and challengin environment with lots of problem solving opportunities."
   ],
   "directories": [
     {
       "path": "~/runtimes_and_logic",
       "items": [
-        { "name": "Python", "permissions": "-rwxr-xr-x", "size": "4.2K" },
-        { "name": "SQL", "permissions": "-rw-r--r--", "size": "2.1K" },
-        { "name": "Java", "permissions": "-rwxr-xr-x", "size": "3.8K" },
-        { "name": "C", "permissions": "-rwxr-xr-x", "size": "1.9K" },
-        { "name": "R", "permissions": "-rw-r--r--", "size": "2.5K" },
-        { "name": "JavaScript", "permissions": "-rwxr-xr-x", "size": "3.1K" },
-        { "name": "Kotlin", "permissions": "-rwxr-xr-x", "size": "2.7K" }
+        {
+          "name": "Python",
+          "permissions": "-rwxr-xr-x",
+          "size": "4.2K"
+        },
+        {
+          "name": "SQL",
+          "permissions": "-rw-r--r--",
+          "size": "2.1K"
+        },
+        {
+          "name": "Java",
+          "permissions": "-rwxr-xr-x",
+          "size": "3.8K"
+        },
+        {
+          "name": "C",
+          "permissions": "-rwxr-xr-x",
+          "size": "1.9K"
+        },
+        {
+          "name": "R",
+          "permissions": "-rw-r--r--",
+          "size": "2.5K"
+        },
+        {
+          "name": "JavaScript",
+          "permissions": "-rwxr-xr-x",
+          "size": "3.1K"
+        },
+        {
+          "name": "Kotlin",
+          "permissions": "-rwxr-xr-x",
+          "size": "2.7K"
+        }
       ]
     },
     {
       "path": "~/ml_data_engine",
       "items": [
-        { "name": "scikit-learn", "permissions": "-rwxr-xr-x", "size": "8.4K" },
-        { "name": "FaceNet", "permissions": "-rwxr-xr-x", "size": "12.1K" },
-        { "name": "MTCNN", "permissions": "-rwxr-xr-x", "size": "6.3K" },
-        { "name": "Streamlit", "permissions": "-rwxr-xr-x", "size": "5.7K" },
-        { "name": "Power BI", "permissions": "-rw-r--r--", "size": "9.2K" },
-        { "name": "Tableau", "permissions": "-rw-r--r--", "size": "7.8K" }
+        {
+          "name": "scikit-learn",
+          "permissions": "-rwxr-xr-x",
+          "size": "8.4K"
+        },
+        {
+          "name": "FaceNet",
+          "permissions": "-rwxr-xr-x",
+          "size": "12.1K"
+        },
+        {
+          "name": "MTCNN",
+          "permissions": "-rwxr-xr-x",
+          "size": "6.3K"
+        },
+        {
+          "name": "Streamlit",
+          "permissions": "-rwxr-xr-x",
+          "size": "5.7K"
+        },
+        {
+          "name": "Power BI",
+          "permissions": "-rw-r--r--",
+          "size": "9.2K"
+        },
+        {
+          "name": "Tableau",
+          "permissions": "-rw-r--r--",
+          "size": "7.8K"
+        }
       ]
     },
     {
       "path": "~/infrastructure_v0.2",
       "items": [
-        { "name": "Firebase", "permissions": "-rwxr-xr-x", "size": "4.1K", "status": "DEPLOYED" },
-        { "name": "Git", "permissions": "-rwxr-xr-x", "size": "3.2K" },
-        { "name": "Android Studio", "permissions": "-rwxr-xr-x", "size": "11.5K" },
-        { "name": "AWS", "permissions": "-rw-------", "size": "6.8K", "status": "LEARNING" },
-        { "name": "Docker", "permissions": "-rw-------", "size": "5.4K", "status": "LEARNING" },
-        { "name": "Ubuntu/WSL", "permissions": "-rwxr-xr-x", "size": "2.9K", "status": "ACTIVE" }
+        {
+          "name": "Firebase",
+          "permissions": "-rwxr-xr-x",
+          "size": "4.1K",
+          "status": "DEPLOYED"
+        },
+        {
+          "name": "Git",
+          "permissions": "-rwxr-xr-x",
+          "size": "3.2K"
+        },
+        {
+          "name": "Android Studio",
+          "permissions": "-rwxr-xr-x",
+          "size": "11.5K"
+        },
+        {
+          "name": "AWS",
+          "permissions": "-rw-------",
+          "size": "6.8K",
+          "status": "LEARNING"
+        },
+        {
+          "name": "Docker",
+          "permissions": "-rw-------",
+          "size": "5.4K",
+          "status": "LEARNING"
+        },
+        {
+          "name": "Ubuntu/WSL",
+          "permissions": "-rwxr-xr-x",
+          "size": "2.9K",
+          "status": "ACTIVE"
+        }
       ]
     }
   ],
   "cliIntro": {
     "lines": [
       "$ whoami",
-      "yasser_ahmed",
+      "yass3r_ahm3d",
       "",
       "$ cat about.txt",
       "ML & Data Science aspirant",
-      "exploring data-driven intelligence.",
+      "working on data-driven intelligence.",
       "",
       "$ ls skills/",
       "python  machine-learning  data-analysis  deep-learning",
