@@ -35,6 +35,9 @@
         </button>
     </div>
 
+    <!-- IDE Gutter (always visible) -->
+    <div id="sys-gutter" class="sys-gutter" aria-hidden="true"></div>
+
     <!-- Main Content (hidden until intro completes/skipped) -->
     <main id="main-content" class="main-content" hidden>
         <!-- Background Grid (Task 12) -->
@@ -48,6 +51,14 @@
             </svg>
         </div>
 
+        <!-- System Layers (Task 18) -->
+        <div id="sys-grid" class="sys-grid" aria-hidden="true"></div>
+        <div id="sys-watermarks" class="sys-watermarks" aria-hidden="true">
+            <span class="watermark wm-1">INIT_CORE_DUMP</span>
+            <span class="watermark wm-2">LATENT_SPACE_ACTIVE</span>
+            <span class="watermark wm-3">EPOCH_OVERFLOW</span>
+        </div>
+
         <!-- Navigation Bar (Task 16) -->
         <nav id="top-nav" class="top-nav" aria-label="Main navigation">
             <div class="nav-inner">
@@ -55,6 +66,7 @@
                 <ul class="nav-links">
                     <li><a href="#about" class="nav-link" data-section="about">About</a></li>
                     <li><a href="#projects" class="nav-link" data-section="projects">Projects</a></li>
+                    <li><a href="#certifications" class="nav-link" data-section="certifications">Certs</a></li>
                     <li><a href="#skills-grid" class="nav-link" data-section="about">Stack</a></li>
                     <li><a href="#contact" class="nav-link" data-section="contact">Contact</a></li>
                 </ul>
@@ -111,6 +123,16 @@
                 <a href="https://github.com/MrWhoCoded" target="_blank" rel="noopener noreferrer" class="all-projects-link">
                     all projects →
                 </a>
+            </div>
+        </section>
+
+        <!-- Certifications Section (Task 17) -->
+        <section id="certifications" class="section certifications">
+            <div class="container">
+                <h2 class="section-heading" data-scramble>Certifications</h2>
+                <div class="cert-matrix" id="cert-matrix">
+                    <!-- Certifications loaded from certifications.json -->
+                </div>
             </div>
         </section>
 
