@@ -1,7 +1,7 @@
 [
     {
         "title": "ClassLogger",
-        "description": "AI-powered mobile attendance system that prevents proxy marking using facial recognition and classroom WiFi verification. Built with an Android (Kotlin) frontend and a Python FastAPI backend using FaceNet embeddings and KNN-based identity matching.",
+        "description": "Built a mobile attendance system to prevent proxy marking using face recognition and classroom WiFi verification. Used FaceNet embeddings with KNN for identity matching, with an Android (Kotlin) app and a FastAPI backend integrated with Firebase.",
         "tech": [
             "Kotlin",
             "Python",
@@ -10,37 +10,65 @@
             "OpenCV",
             "FaceNet"
         ],
-        "url": "https://github.com/Nazeef1/ClassLogger"
+        "url": "https://github.com/MrWhoCoded/ClassLogger"
     },
     {
         "title": "credit-card-defaults",
-        "description": "Credit risk prediction model built on the UCI dataset with a focus on business impact over raw accuracy. Engineered behavioral features from repayment history and optimized a Random Forest with threshold tuning to improve default recall to 61%, prioritizing early risk detection.",
+        "description": "Analyzed credit card default patterns using real-world data to understand key risk factors like credit score, demographics, and payment history. Built models and evaluated performance using metrics like ROC-AUC while focusing on false positives and false negatives.",
         "tech": [
             "Python",
-            "scikit-learn",
             "Pandas",
+            "Scikit-learn",
             "NumPy",
-            "Random Forest"
+            "Matplotlib"
         ],
         "url": "https://github.com/MrWhoCoded/credit-card-defaults"
     },
     {
         "title": "UIDAI-Hackathon",
-        "description": "Interactive national-level dashboard built for UIDAI Hackathon 2026 to measure Digital Equity across 645+ districts. Features drill-down analytics, risk classification, and AI-driven district recommendations using a Streamlit-based data visualization system.",
+        "description": "Built a data-driven dashboard to analyze digital equity and predict Aadhaar service demand across states and districts. Used Streamlit with Pandas and Plotly to visualize metrics and highlight high-risk areas with actionable insights.",
         "tech": [
             "Python",
             "Streamlit",
             "Pandas",
             "Plotly"
         ],
-        "url": "https://github.com/kvkushal/UIDAI-Hackathon"
+        "url": "https://github.com/MrWhoCoded/UIDAI-Hackathon",
+        "live": "https://aadhaar-nexus.streamlit.app/"
     },
     {
-        "title": "Motion Security Detector",
-        "description": "A minimal security system replica for motion detection using basic image processing.",
+        "title": "Talentarium",
+        "description": "Built an online learning platform where users can browse courses, sign up, and enroll through a responsive web interface. Focused on clean UI, smooth navigation, and a scalable structure using HTML, CSS, JavaScript and React.",
         "tech": [
-            "Python"
+            "HTML",
+            "CSS",
+            "JavaScript",
+            "React",
+            "Node.js"
         ],
-        "url": "https://github.com/MrWhoCoded/Motion-security-detector"
+        "url": "https://github.com/MrWhoCoded/Talentarium"
+    },
+    {
+        "title": "Attendence-System",
+        "description": "Built a Raspberry Pi-based face recognition attendance system that detects and logs attendance in real time using a webcam. Used OpenCV for face detection and a Flask-based interface to manage and store attendance data.",
+        "tech": [
+            "Python",
+            "OpenCV",
+            "Flask",
+            "Raspberry Pi",
+            "NumPy"
+        ],
+        "url": "https://github.com/MrWhoCoded/attendence_project"
+    },
+    {
+        "title": "Wordle Clone",
+        "description": "Built a Wordle-style game in Python where users guess a 5-letter word with real-time feedback. Implemented game logic, input validation, and statistics tracking to create a complete and replayable experience.",
+        "tech": [
+            "Python",
+            "NumPy",
+            "JSON",
+            "GUI"
+        ],
+        "url": "https://github.com/MrWhoCoded/wordle_clone"
     }
 ]
