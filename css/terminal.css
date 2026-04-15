@@ -1,0 +1,68 @@
+/* --- CLI Intro (Task 1 styling) --- */
+.cli-intro {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-cli-bg);
+    z-index: 100;
+}
+
+.cli-intro.hidden {
+    display: none;
+}
+
+.cli-terminal {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--color-cli-text);
+    max-width: 700px;
+    padding: var(--space-lg);
+}
+
+.cli-terminal pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.cli-cursor {
+    display: inline-block;
+    color: var(--color-cli-cursor);
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+.skip-btn {
+    position: absolute;
+    bottom: var(--space-xl);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    background: transparent;
+    border: 1px solid var(--color-text-muted);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.skip-btn:hover,
+.skip-btn:focus {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.skip-btn kbd {
+    background: var(--color-bg-secondary);
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-left: var(--space-xs);
+    font-size: 0.75rem;
+}
