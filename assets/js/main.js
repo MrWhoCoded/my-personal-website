@@ -833,27 +833,11 @@ function showToast(message) {
 
 function initSystemLayers() {
     const mainContent = document.getElementById('main-content');
-    const gutter = document.getElementById('sys-gutter');
     const watermarks = document.querySelectorAll('.watermark');
     const hero = document.getElementById('hero');
     if (!mainContent || !hero) return;
 
-    // Virtual gutter: only render visible lines, update text on scroll
-    const lineHeight = 20;
-    const visibleLines = Math.ceil(window.innerHeight / lineHeight) + 2;
-    const gutterSpans = [];
-
-    if (gutter) {
-        for (let i = 0; i < visibleLines; i++) {
-            const span = document.createElement('span');
-            span.className = 'gutter-line';
-            span.textContent = String(i + 1).padStart(3, '0');
-            gutter.appendChild(span);
-            gutterSpans.push(span);
-        }
-    }
-
-    // Scroll handler: update gutter numbers + parallax watermarks
+    // Scroll handler: parallax watermarks
     let ticking = false;
     function onScroll() {
         if (ticking) return;
@@ -861,17 +845,6 @@ function initSystemLayers() {
         requestAnimationFrame(() => {
             const scrollY = window.scrollY;
 
-            // Gutter: update line numbers based on scroll position
-            if (gutterSpans.length) {
-                const firstLine = Math.floor(scrollY / lineHeight) + 1;
-                const offset = -(scrollY % lineHeight);
-                gutter.style.paddingTop = offset + 'px';
-                for (let i = 0; i < gutterSpans.length; i++) {
-                    gutterSpans[i].textContent = String(firstLine + i).padStart(3, '0');
-                }
-            }
-
-            // Watermarks: subtle parallax (move slower than scroll)
             watermarks.forEach((wm, i) => {
                 const speed = 0.05 + (i * 0.03);
                 const baseRotation = wm.classList.contains('wm-1') ? -12
