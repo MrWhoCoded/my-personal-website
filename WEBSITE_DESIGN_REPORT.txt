@@ -1,0 +1,1212 @@
+================================================================================
+     COMPREHENSIVE DESIGN & IMPLEMENTATION REPORT
+     Personal Portfolio Website — Yasser Ahmed
+     Course Work Report
+================================================================================
+
+Date:        April 2026
+Author:      Yasser Ahmed Mohammed
+License:     MIT License (Copyright © 2026)
+Repository:  https://github.com/MrWhoCoded/my-personal-website
+Tech Stack:  Vanilla HTML5, CSS3, ES6+ JavaScript (No frameworks, no bundlers)
+
+================================================================================
+TABLE OF CONTENTS
+================================================================================
+
+  1.  Executive Summary
+  2.  Project Overview & Purpose
+  3.  Architecture Overview (High-Level)
+  4.  Directory & File Structure
+  5.  Technology Stack Justification
+  6.  Design Philosophy & Theme
+  7.  Detailed Section-by-Section Breakdown
+      7.1   CLI Terminal Intro (Landing Experience)
+      7.2   Navigation Bar
+      7.3   Hero Section
+      7.4   About Section
+      7.5   System Environment (Skills Grid)
+      7.6   Projects Section
+      7.7   Certifications Section
+      7.8   Contact Section
+      7.9   Footer
+  8.  CSS Architecture (Low-Level)
+      8.1   Design Tokens (CSS Custom Properties)
+      8.2   Stylesheet Separation Strategy
+      8.3   Typography System
+      8.4   Color Palette
+      8.5   Responsive Design Strategy
+      8.6   Animation System
+  9.  JavaScript Architecture (Low-Level)
+      9.1   Module System & Dependency Graph
+      9.2   CLI Typing Engine
+      9.3   Typewriter Effect
+      9.4   Split-Flap / Scramble Heading Animation
+      9.5   Interactive Grid Canvas Background
+      9.6   Easter Egg Bug
+      9.7   Scroll-Spy Navigation
+      9.8   IntersectionObserver-Based Scroll Transitions
+      9.9   System Layers (Parallax Watermarks)
+      9.10  Data Loading Pipeline
+  10. Data Architecture (JSON-Driven Content)
+  11. Unique & Distinguishing Features
+  12. Accessibility Considerations
+  13. Performance Optimizations
+  14. SEO Considerations
+  15. Summary
+
+================================================================================
+1. EXECUTIVE SUMMARY
+================================================================================
+
+This report provides an exhaustive analysis of a personal portfolio website
+built by Yasser Ahmed, a Machine Learning & Data Science aspirant at B.M.S
+College of Engineering, Bangalore. The website is a single-page application
+(SPA) built entirely with vanilla web technologies — HTML5, CSS3, and ES6+
+JavaScript modules — with zero external frameworks, libraries, or build tools.
+
+The website's defining characteristic is its LINUX TERMINAL / HACKER AESTHETIC.
+Every visual element, from the navigation bar to the skills section, is designed
+to mimic a Unix/Linux command-line environment. This is not merely a skin; the
+entire information architecture is structured around terminal metaphors
+(commands, directory listings, file permissions, system environments).
+
+The site features a full-screen CLI typing animation as its landing experience,
+an interactive mouse-following grid canvas, a hidden "bug" Easter egg, 
+split-flap heading animations that translate English to Kannada, a typewriter 
+effect with bilingual support (English ↔ Kannada), parallax watermark layers, 
+and IntersectionObserver-driven scroll transitions — all without a single 
+dependency.
+
+================================================================================
+2. PROJECT OVERVIEW & PURPOSE
+================================================================================
+
+PURPOSE:
+  - Serve as a personal portfolio for Yasser Ahmed
+  - Showcase ML/Data Science projects and technical skills
+  - Provide downloadable resume (PDF)
+  - Provide contact information and social media links
+  - Demonstrate front-end development proficiency through the site itself
+
+TARGET AUDIENCE:
+  - Recruiters and hiring managers in ML/Data Science
+  - Peers and collaborators
+  - Academic faculty for coursework evaluation
+
+HOSTING:
+  - Static site — no backend server required
+  - Designed for GitHub Pages or any static file host
+  - All content loaded from local JSON files via fetch()
+
+================================================================================
+3. ARCHITECTURE OVERVIEW (HIGH-LEVEL)
+================================================================================
+
+The website follows a STATIC SINGLE-PAGE ARCHITECTURE (SPA) without routing:
+
+  ┌───────────────────────────────────────────────────────────────┐
+  │                        index.html                            │
+  │  (Single entry point — all sections in one document)         │
+  ├───────────────────────────────────────────────────────────────┤
+  │                                                               │
+  │  ┌─────────────┐  ┌──────────────────┐  ┌─────────────────┐  │
+  │  │  CSS Layer   │  │   JS Layer       │  │  Data Layer     │  │
+  │  │             │  │  (ES6 Modules)   │  │  (JSON files)   │  │
+  │  │ main.css    │  │                  │  │                 │  │
+  │  │ animations  │  │  main.js         │  │ content.json    │  │
+  │  │ terminal    │  │  ├── cli.js      │  │ projects.json   │  │
+  │  │ mobile      │  │  ├── typewriter  │  │ certifications  │  │
+  │  │             │  │  ├── observer    │  │   .json         │  │
+  │  │             │  │  └── utils.js    │  │                 │  │
+  │  └─────────────┘  └──────────────────┘  └─────────────────┘  │
+  │                                                               │
+  │  ┌─────────────────────────────────────────────────────────┐  │
+  │  │                   Assets Layer                          │  │
+  │  │  assets/icons/   → Favicon                              │  │
+  │  │  assets/images/  → Profile photo, cert badges           │  │
+  │  │  resume/         → YasserAhmedMohammed_BMSCE.pdf        │  │
+  │  └─────────────────────────────────────────────────────────┘  │
+  └───────────────────────────────────────────────────────────────┘
+
+KEY ARCHITECTURAL DECISIONS:
+  1. NO build tools (no Webpack, Vite, Parcel)
+  2. NO CSS frameworks (no Tailwind, Bootstrap)
+  3. NO JS frameworks (no React, Vue, Angular)
+  4. ES6 modules used natively via <script type="module">
+  5. Content separated from presentation via JSON data files
+  6. All interactivity is client-side only
+
+================================================================================
+4. DIRECTORY & FILE STRUCTURE
+================================================================================
+
+  personal website/
+  ├── index.html                    (8,022 bytes)  — Main HTML document
+  ├── LICENSE                       (1,099 bytes)  — MIT License
+  │
+  ├── css/
+  │   ├── main.css                  (26,312 bytes) — Core styles & layout
+  │   ├── animations.css            (4,281 bytes)  — Canvas, bugs, layers, toast
+  │   ├── terminal.css              (1,448 bytes)  — CLI intro overlay styles
+  │   └── mobile.css                (725 bytes)    — Mobile-specific overrides
+  │
+  ├── js/
+  │   ├── main.js                   (9,155 bytes)  — Entry point, data loader
+  │   ├── cli.js                    (3,702 bytes)  — CLI typing animation
+  │   ├── typewriter.js             (7,724 bytes)  — Typewriter + split-flap
+  │   ├── observer.js               (10,801 bytes) — All IntersectionObservers
+  │   └── utils.js                  (1,689 bytes)  — Config, helpers, toast
+  │
+  ├── data/
+  │   ├── content.json              (4,224 bytes)  — About, skills, CLI lines
+  │   ├── projects.json             (3,174 bytes)  — Project cards data
+  │   └── certifications.json       (611 bytes)    — Certification cards data
+  │
+  ├── assets/
+  │   ├── icons/
+  │   │   └── Code_Generated_Image.png  (8,974 bytes)  — Favicon
+  │   └── images/
+  │       ├── profile.png           (1,721,860 bytes)  — Profile photo
+  │       ├── nutanix-certified-associate-6.png (21,435 bytes) — Cert badge
+  │       └── 404.png               (3,690 bytes)      — Placeholder badge
+  │
+  └── resume/
+      └── YasserAhmedMohammed_BMSCE.pdf               (16,873 bytes) — Downloadable resume
+
+  TOTAL FILES: 16 (excluding .git)
+  TOTAL CSS:   ~32.8 KB
+  TOTAL JS:    ~33.1 KB
+  TOTAL JSON:  ~8.0 KB
+
+================================================================================
+5. TECHNOLOGY STACK JUSTIFICATION
+================================================================================
+
+  TECHNOLOGY         WHY CHOSEN
+  ─────────────────  ───────────────────────────────────────────────────────
+  Vanilla HTML5      Semantic markup, no templating overhead, maximum
+                     control, demonstrates fundamental understanding.
+
+  Vanilla CSS3       Full control over design system. CSS custom properties
+                     for theming. No utility-class bloat. Hand-crafted
+                     animations.
+
+  ES6+ Modules       Native browser module system (import/export). No
+                     bundler needed. Clean separation of concerns. Each
+                     file has a single responsibility.
+
+  JSON Data Files    Content decoupled from structure. Easy to update
+                     projects/skills without touching HTML. Mimics an
+                     API-driven architecture without a backend.
+
+  Google Fonts       Four fonts loaded: JetBrains Mono, Space Mono,
+                     Share Tech Mono, Noto Sans Kannada — all crucial
+                     for the terminal aesthetic and bilingual support.
+
+  No Framework       This is intentional. The site proves that a visually
+                     rich, interactive portfolio can be built without React,
+                     Vue, or any framework — a demonstration of raw
+                     front-end mastery.
+
+================================================================================
+6. DESIGN PHILOSOPHY & THEME
+================================================================================
+
+  CORE THEME: "Linux Terminal / Hacker Workstation"
+
+  The entire website is designed to feel like looking at a developer's terminal.
+  Every design decision reinforces this metaphor:
+
+  1. MONOSPACE TYPOGRAPHY EVERYWHERE
+     - JetBrains Mono: CLI output, code-like text
+     - Share Tech Mono: Section headings, nav links
+     - Space Mono: Body text (even body text is monospace!)
+
+  2. DARK MODE ONLY
+     - Background: #0a0f14 (near-black with slight blue tint)
+     - Text: #e4e8ec (soft white, not harsh)
+     - No light mode toggle — this is a deliberate choice reinforcing
+       the "always in terminal" feeling.
+
+  3. TEAL ACCENT COLOR (#2dd4bf)
+     - Inspired by common terminal highlight colors
+     - Used for: accent underlines, hover states, borders, the CLI cursor,
+       skill brackets, status tags, buttons, and the grid glow
+     - Secondary green accent (#4ade80) for "deployed"/"live" status
+
+  4. TERMINAL METAPHORS IN UI ELEMENTS:
+     - Navigation bar shows "yasser@portfolio:~$" as a shell prompt
+     - Skills section displays as "$ ls -la ~/directory_name" with
+       file permissions (-rwxr-xr-x) and file sizes
+     - Active nav link uses "[ About ]_" with a blinking underscore cursor
+     - Hover states use "[ ]" bracket wrapping like terminal selection
+     - "EXPORT CV" button mimics a download command
+
+  5. STATUS INDICATORS
+     - ACTIVE (teal border), LEARNING (pulsing teal border), DEPLOYED
+       (green border) — mimicking process status in `htop` or `systemctl`
+
+  6. GLASSMORPHISM for the nav bar:
+     - background: rgba(10, 10, 10, 0.8)
+     - backdrop-filter: blur(10px)
+
+================================================================================
+7. DETAILED SECTION-BY-SECTION BREAKDOWN
+================================================================================
+
+─────────────────────────────────────────────────────────────────────────────
+7.1  CLI TERMINAL INTRO (Landing Experience)
+─────────────────────────────────────────────────────────────────────────────
+
+  WHAT THE USER SEES:
+    When the page loads, a full-screen dark terminal overlay appears.
+    Lines of text are typed out character by character, simulating a
+    real CLI session:
+
+      $ whoami
+      yass3r_ahm3d
+
+      $ cat about.txt
+      ML & Data Science aspirant
+      working on data-driven intelligence.
+
+      $ ls skills/
+      python  machine-learning  data-analysis  deep-learning
+
+      $ echo 'Loading portfolio...'
+
+    After the animation completes, the overlay fades out and the main
+    portfolio content is revealed.
+
+  HTML STRUCTURE:
+    - <div id="cli-intro"> — Fixed overlay covering entire viewport
+    - <pre id="cli-output"> — Preserves whitespace for terminal look
+    - <span class="cli-cursor">▋</span> — Blinking cursor character
+    - <button id="skip-intro"> — "Skip [Esc]" button at bottom
+
+  CSS (terminal.css):
+    - position: fixed; inset: 0 — Full viewport coverage
+    - z-index: 100 — Above everything
+    - background: #0d1117 (GitHub-dark inspired)
+    - Cursor blinks via @keyframes blink (step-end for sharp blink)
+    - Skip button: monospace, border, positioned absolutely at bottom
+
+  JAVASCRIPT (cli.js):
+    - Loads CLI lines from content.json (cliIntro.lines array)
+    - typeLines() iterates through each line
+    - typeLine() types character by character using requestAnimationFrame
+    - Command lines type at CONFIG.typingSpeed (30ms per char)
+    - Output lines type at half speed (15ms per char)
+    - Blank lines (" ") add a newline with brief 100ms pause
+    - finishIntro() removes the overlay and triggers all post-intro
+      initializations
+
+  SKIP MECHANISM:
+    - User can press Escape key OR click the "Skip [Esc]" button
+    - skipIntro() sets isIntroSkipped flag, cancels animation frame,
+      fades overlay opacity to 0 over 300ms, then finishIntro()
+    - The isIntroSkipped flag is checked in every loop iteration to
+      immediately halt typing
+
+  ACCESSIBILITY:
+    - aria-live="polite" on the CLI container
+    - aria-label on the skip button
+    - If user has prefers-reduced-motion enabled, finishIntro() is
+      called immediately — no animation at all
+
+  UNIQUE ASPECT:
+    - The CLI lines are DATA-DRIVEN (from content.json), not hardcoded
+    - The username "yass3r_ahm3d" uses leetspeak, adding personality
+    - Falls back to basic whoami if JSON fetch fails
+
+─────────────────────────────────────────────────────────────────────────────
+7.2  NAVIGATION BAR
+─────────────────────────────────────────────────────────────────────────────
+
+  VISUAL:
+    ┌──────────────────────────────────────────────────────────────────┐
+    │ yasser@portfolio:~$    About  Projects  Certs  Stack  Contact  │
+    │                                                        ↓ EXPORT CV │
+    └──────────────────────────────────────────────────────────────────┘
+
+  STRUCTURE:
+    - Fixed at top (position: fixed), 55px height
+    - Glass-morphism: rgba(10,10,10,0.8) + blur(10px)
+    - Three-part layout: prompt (left) | nav links (center) | export (right)
+
+  TERMINAL PROMPT:
+    - Left side shows "yasser@portfolio:~$" in teal, monospace
+    - Opacity 0.6 for subtlety — it's ambient, not the focus
+
+  NAV LINKS:
+    - On hover/active: text turns teal and brackets appear: "[ About ]"
+    - Active link (via scroll-spy) adds "[ About ]_" with blinking
+      underscore animation (cursor-blink keyframes)
+    - This mimics a terminal cursor sitting at the end of a selection
+
+  EXPORT CV BUTTON:
+    - Downloads YasserAhmedMohammed_BMSCE.pdf
+    - Border: 1px solid rgba(45, 212, 191, 0.3)
+    - Hover: teal background glow + shadow
+
+  SCROLL-SPY (observer.js → initScrollSpy):
+    - Uses IntersectionObserver on all main sections
+    - rootMargin: '-20% 0px -70% 0px' — triggers in the top 20-30%
+      of the viewport
+    - Updates .active class on corresponding nav link
+
+  MOBILE:
+    - Prompt text hidden on ≤768px
+    - Link font shrinks to 0.65rem
+    - "EXPORT CV" text hidden, only ↓ icon remains
+
+─────────────────────────────────────────────────────────────────────────────
+7.3  HERO SECTION
+─────────────────────────────────────────────────────────────────────────────
+
+  CONTENT:
+    - Full-viewport height (min-height: 100vh)
+    - Centered: "Yasser Ahmed" (large, Share Tech Mono, clamp sizing)
+    - Tagline: "Machine Learning & Data Science aspirant [typewriter]."
+    - Scroll indicator arrow at bottom (bouncing animated chevron)
+
+  HERO NAME:
+    - font-size: clamp(2.5rem, 8vw, 5rem) — fluid responsive sizing
+    - Entrance animation: fadeInUp (opacity 0→1, translateY 20px→0)
+    - Animation delay: 0.1s
+
+  TAGLINE:
+    - The [data-typewriter] span is dynamically animated
+    - Alternates between two phrases:
+      1. "exploring data-driven intelligence" (English)
+      2. "ಡೇಟಾ ಚಾಲಿತ ಬುದ್ಧಿಮತ್ತೆಯನ್ನು ಅನ್ವೇಷಿಸುವುದು" (Kannada)
+    - Uses Intl.Segmenter for proper Kannada grapheme clustering
+    - Dynamic speed: baseTime (2000ms) / number of graphemes
+    - Hold delay: 2000ms, pause between phrases: 500ms
+    - Erasing speed is half of typing speed
+
+  SCROLL INDICATOR:
+    - CSS-only bouncing arrow via @keyframes bounce
+    - Teal color on hover
+    - Links to #about section
+
+  UNIQUE ASPECTS:
+    - Bilingual typewriter (English ↔ Kannada) is very unusual
+    - Intl.Segmenter usage for Kannada support is a sophisticated 
+      internationalization decision — Kannada characters are multi-byte
+      and require grapheme-level segmentation
+
+─────────────────────────────────────────────────────────────────────────────
+7.4  ABOUT SECTION
+─────────────────────────────────────────────────────────────────────────────
+
+  LAYOUT:
+    - Two-column grid: Profile photo (150px circle) | Text content
+    - Photo: circular, teal border, overflow hidden
+    - Text loaded dynamically from content.json "about" array
+
+  SECTION HEADING:
+    - "About" text with teal underline bar (60px × 3px)
+    - [data-scramble] attribute triggers SPLIT-FLAP animation
+    - On hover → English characters flip to Kannada: "About" → "ಬಗ್ಗೆ"
+    - On touch devices: triggers on scroll into view (IntersectionObserver)
+
+  SPLIT-FLAP MECHANISM (typewriter.js → initSplitFlapHeadings):
+    - Each character gets its own "reel" with two glyphs (English + Kannada)
+    - CSS transition: transform translateY with cubic-bezier bounce
+    - Each reel has a staggered delay (index × 0.05s) for a cascade effect
+    - Character widths are measured dynamically using measureWidth()
+    - CSS custom properties --w-eng and --w-kan allow smooth width 
+      transitions between different character widths
+    - Waits for document.fonts.ready before measuring (critical for accuracy)
+
+  CONTENT (from content.json):
+    Paragraph 1: Academic info — B.M.S College of Engineering, Bangalore
+    Paragraph 2: Experience areas — data analytics, ML, DL, comp arch, OS, 
+                 distributed systems. Coding since 6th grade.
+    Paragraph 3: Beyond accuracy — focus on false positives/negatives, 
+                 real-world impact
+    Paragraph 4: Passionate about showcased projects
+    Paragraph 5: Seeking challenging, fast-paced roles
+
+  MOBILE RESPONSIVE:
+    - Grid collapses to single column
+    - Photo centers above text
+    - Text centers
+
+─────────────────────────────────────────────────────────────────────────────
+7.5  SYSTEM ENVIRONMENT (Skills Grid)
+─────────────────────────────────────────────────────────────────────────────
+
+  This is the most thematically unique section of the entire website.
+
+  VISUAL METAPHOR:
+    Skills are displayed as a Unix "ls -la" directory listing. Each
+    skill category is a directory, and each skill is a file within it.
+
+  THREE DIRECTORIES (from content.json):
+
+    $ ls -la ~/runtimes_and_logic         $ ls -la ~/ml_data_engine
+    NAME        SIZE    PERMS              NAME          SIZE    PERMS
+    ─────────────────────────              ─────────────────────────
+    Python      4.2K    -rwxr-xr-x        scikit-learn  8.4K    -rwxr-xr-x
+    SQL         2.1K    -rw-r--r--         FaceNet       12.1K   -rwxr-xr-x
+    Java        3.8K    -rwxr-xr-x        MTCNN         6.3K    -rwxr-xr-x
+    C           1.9K    -rwxr-xr-x        Streamlit     5.7K    -rwxr-xr-x
+    JavaScript  3.1K    -rwxr-xr-x        Power BI      9.2K    -rw-r--r--
+    Kotlin      2.7K    -rwxr-xr-x        Tableau       7.8K    -rw-r--r--
+    R           2.5K    -rw-r--r--
+
+    $ ls -la ~/infrastructure_v0.2
+    NAME            SIZE    PERMS          STATUS
+    ─────────────────────────
+    Firebase        4.1K    -rwxr-xr-x    [DEPLOYED]
+    Git             3.2K    -rwxr-xr-x
+    Android Studio  11.5K   -rwxr-xr-x
+    AWS             6.8K    -rw-------    [LEARNING] (pulsing border)
+    Docker          5.4K    -rw-------    [LEARNING] (pulsing border)
+    Ubuntu/WSL      2.9K    -rwxr-xr-x    [ACTIVE]
+
+  TECHNICAL DETAILS:
+    - 3-column grid (collapses to 1 on mobile)
+    - Each column is a .skills-column with subtle border
+    - Header shows "$ ls -la ~/path" with prompt in muted text
+    - Column headers: NAME | SIZE | PERMS (shown on ≥1100px screens)
+    - Each skill is a .ls-row with three columns
+    - File permissions are REALISTIC Unix permissions:
+      * -rwxr-xr-x → executable (for languages/tools you run)
+      * -rw-r--r-- → read-only (for data/viz tools like SQL, Power BI)
+      * -rw------- → private, restricted (for tools being learned)
+    - File sizes are fictitious but proportional (Python 4.2K — main
+      language; FaceNet 12.1K — complex deep learning model)
+
+  CORNER BRACKET ANIMATION:
+    - Each .skill-tag has four absolutely-positioned .bracket elements
+    - On hover, brackets expand from center outward (50%→0%) with a
+      springy cubic-bezier(0.175, 0.885, 0.32, 1.275) transition
+    - On touch devices: IntersectionObserver adds .active class with
+      staggered 100ms delay per tag as the column scrolls into view
+
+  STATUS TAGS:
+    - .status-tag--learning: Faded teal with pulsing border animation
+    - .status-tag--active: Solid teal
+    - .status-tag--deployed: Green (#4ade80)
+
+─────────────────────────────────────────────────────────────────────────────
+7.6  PROJECTS SECTION
+─────────────────────────────────────────────────────────────────────────────
+
+  CARD LAYOUT:
+    - Auto-fit grid: repeat(auto-fit, minmax(280px, 1fr))
+    - Each project is an <article class="project-card"> with tabindex="0"
+
+  CARD STRUCTURE (per card):
+    ┌──────────────────────────────────────┐
+    │  [Title]                    [GitHub] │  ← Header row
+    │                                      │
+    │  Description text here...            │
+    │                                      │
+    │  [Python] [FastAPI] [Firebase]        │  ← Tech pills
+    │                                      │
+    │  [View Project ↗]   [Live ●]         │  ← Action buttons
+    └──────────────────────────────────────┘
+
+  HOVER EFFECTS:
+    1. Card lifts up: transform translateY(-6px)
+    2. Teal accent line appears at top (::before pseudo-element, opacity 0→1)
+    3. Box shadow deepens with subtle teal glow
+    4. Action buttons fade in from below (opacity 0→1, translateY 4px→0)
+       — they are INVISIBLE by default, only appear on hover/focus
+
+  TECH PILLS:
+    - Monospace, 0.7rem, teal on dark background
+    - Rounded corners (12px), subtle teal border
+
+  "LIVE" BUTTON:
+    - Green accent (#4ade80) instead of teal
+    - Pulsing dot icon (SVG circle with live-pulse animation)
+    - Only shown if project has a "live" URL in data
+
+  "all projects →" LINK:
+    - Below the grid, points to GitHub profile
+    - Letter-spacing widens on hover (subtle "expanding" feel)
+
+  PROJECTS DATA (6 total):
+    1. ClassLogger — Face recognition attendance (Kotlin, FaceNet, FastAPI)
+    2. credit-card-defaults — ML risk analysis (Scikit-learn)
+    3. UIDAI-Hackathon — Digital equity dashboard (Streamlit, Plotly) [LIVE]
+    4. Talentarium — Online learning platform (React, Node.js)
+    5. Attendence-System — Raspberry Pi face recognition (OpenCV, Flask)
+    6. Wordle Clone — Python word game (NumPy, GUI)
+
+─────────────────────────────────────────────────────────────────────────────
+7.7  CERTIFICATIONS SECTION
+─────────────────────────────────────────────────────────────────────────────
+
+  LAYOUT:
+    - Auto-fit grid: repeat(auto-fit, minmax(300px, 1fr))
+    - Card layout: Badge image (80x80) | Info column
+
+  CARD STRUCTURE:
+    ┌──────────────────────────────────────┐
+    │  [Badge]  Title                      │
+    │           Issuer                     │
+    │           ID: NCA-2026-001           │
+    │           [CERTIFIED]  2026          │
+    │           verify →                   │
+    └──────────────────────────────────────┘
+
+  BADGE "DECRYPT" EFFECT:
+    - Badge images start in grayscale (filter: grayscale(100%) brightness(0.7))
+    - On card hover: transitions to full color (grayscale(0%) brightness(1))
+    - This creates a "decryption" or "unlocking" visual metaphor
+
+  SCROLL-IN ANIMATION:
+    - Cards start with opacity: 0, translateY: 20px
+    - IntersectionObserver adds .visible class when scrolled into view
+    - Each card is staggered by 150ms × index for a cascade reveal
+
+  VERIFY LINK:
+    - Hidden by default (opacity: 0, translateY: 4px)
+    - Appears on card hover (same reveal pattern as project action buttons)
+    - Links to Credly verification page
+
+  "COMING SOON" CARD:
+    - Dimmed at 50% opacity
+    - No verify link
+    - Uses 404.png as placeholder badge
+
+  CURRENT CERTIFICATIONS:
+    1. Nutanix Certified Associate (NCA-2026-001) — Certified, 2026
+    2. COMING SOON... (placeholder)
+
+─────────────────────────────────────────────────────────────────────────────
+7.8  CONTACT SECTION
+─────────────────────────────────────────────────────────────────────────────
+
+  CONTENT:
+    - Centered layout
+    - Text: "Interested in collaborating or have a question?"
+    - Email link: yasser.ahmed.dev@gmail.com (loaded from content.json)
+    - Social icons: GitHub + LinkedIn (SVG icons, loaded dynamically)
+
+  SOCIAL LINKS:
+    - Icons stored as inline SVG strings in main.js ICONS object
+    - Mapped by name: "GitHub" → GitHub SVG path, "LinkedIn" → LinkedIn SVG
+    - Hover: color turns teal, translateY(-2px) lift effect
+
+  MOBILE:
+    - Email breaks on small screens (word-break: break-all)
+    - Social links get larger padding (44px+ touch targets per WCAG)
+
+─────────────────────────────────────────────────────────────────────────────
+7.9  FOOTER
+─────────────────────────────────────────────────────────────────────────────
+
+  - Minimal footer with a famous data science quote:
+    "If you torture the data long enough, it will confess to anything"
+    — Ronald Coase
+  - Italic, muted color, max-width 500px
+  - Author name in teal accent
+  - No copyright line in footer (it's in the LICENSE file instead)
+
+================================================================================
+8. CSS ARCHITECTURE (LOW-LEVEL)
+================================================================================
+
+─────────────────────────────────────────────────────────────────────────────
+8.1  DESIGN TOKENS (CSS Custom Properties)
+─────────────────────────────────────────────────────────────────────────────
+
+  All design values are centralized in :root variables:
+
+  COLORS:
+    --color-bg:            #0a0f14        (Primary background)
+    --color-bg-secondary:  #111820        (Card backgrounds, photo placeholder)
+    --color-text:          #e4e8ec        (Primary text)
+    --color-text-muted:    #8b9299        (Secondary text)
+    --color-accent:        #2dd4bf        (Teal accent — THE signature color)
+    --color-accent-hover:  #5eead4        (Lighter teal for hover)
+    --color-accent-subtle: rgba(45,212,191,0.1)  (Subtle teal wash)
+    --color-cli-bg:        #0d1117        (CLI overlay — darker)
+    --color-cli-text:      #58a6ff        (CLI text — blue, GitHub-inspired)
+    --color-cli-cursor:    #2dd4bf        (CLI cursor — same teal accent)
+
+  TYPOGRAPHY:
+    --font-mono:    'JetBrains Mono', 'Consolas', 'Monaco', monospace
+    --font-heading: 'Share Tech Mono', 'Courier New', monospace
+    --font-sans:    'Space Mono', 'Consolas', monospace
+    --font-kannada: 'Noto Sans Kannada', sans-serif
+
+  SPACING (8px-base system):
+    --space-xs:  0.25rem  (4px)
+    --space-sm:  0.5rem   (8px)
+    --space-md:  1rem     (16px)
+    --space-lg:  2rem     (32px)
+    --space-xl:  4rem     (64px) — reduced to 2-3rem on mobile
+    --space-2xl: 5rem     (80px)
+
+  TRANSITIONS:
+    --transition-fast: 150ms ease
+    --transition-base: 250ms ease
+    --transition-slow: 400ms ease
+
+  LAYOUT:
+    --max-width:     900px
+    --border-radius: 4px
+
+─────────────────────────────────────────────────────────────────────────────
+8.2  STYLESHEET SEPARATION STRATEGY
+─────────────────────────────────────────────────────────────────────────────
+
+  FILE              SIZE        RESPONSIBILITY
+  ────────────────  ──────────  ─────────────────────────────────────
+  main.css          26,312 B   Everything: reset, layout, nav, hero,
+                               about, skills, projects, certs, contact,
+                               footer, responsive breakpoints.
+                               This is the "source of truth" stylesheet.
+
+  animations.css    4,281 B    Fixed-position layers: canvas background,
+                               system grid, parallax watermarks, easter
+                               egg bug, toast notifications. Also contains
+                               the critical prefers-reduced-motion media
+                               query that disables ALL animations.
+
+  terminal.css      1,448 B    CLI intro overlay only. Isolated because
+                               it's a full-screen overlay that gets
+                               hidden after the intro.
+
+  mobile.css        725 B      Supplementary mobile-specific overrides.
+                               Some mobile rules are also in main.css
+                               (there is overlap — this is likely from
+                               iterative development).
+
+─────────────────────────────────────────────────────────────────────────────
+8.3  TYPOGRAPHY SYSTEM
+─────────────────────────────────────────────────────────────────────────────
+
+  The site uses FOUR monospace/technical fonts. This is unusual — most
+  sites use 2. The reason is the terminal aesthetic demands variety in
+  monospace styles:
+
+  1. JetBrains Mono (400, 500)
+     - Used for: CLI output, status tags, tech pills, cert IDs, 
+       file permissions, file sizes, contact email, export button
+     - WHY: The most readable coding font, designed for IDEs
+
+  2. Share Tech Mono (400 only)
+     - Used for: Section headings, nav links, hero name, project titles,
+       directory headers, sys-env title, cert titles
+     - WHY: More "technical" feeling than JetBrains, wider letterforms
+
+  3. Space Mono (400, 700, italic)
+     - Used for: BODY TEXT — this is the most unique choice
+     - WHY: Readable monospace that works for paragraphs, giving the
+       entire site a "code editor" feel even in prose sections
+
+  4. Noto Sans Kannada (400, 500)
+     - Used for: Kannada translations in split-flap and typewriter
+     - WHY: Google's pan-language font with excellent Kannada support
+     - Loaded as a fallback font, only visible during animations
+
+─────────────────────────────────────────────────────────────────────────────
+8.4  COLOR PALETTE
+─────────────────────────────────────────────────────────────────────────────
+
+  The palette is extremely disciplined — only 5 core colors are used:
+
+  ┌─────────────────────────────────────────────────────────────────┐
+  │  #0a0f14  ████████  Deep navy-black     (backgrounds)          │
+  │  #111820  ████████  Slightly lighter     (card surfaces)        │
+  │  #e4e8ec  ████████  Cool white           (primary text)         │
+  │  #8b9299  ████████  Blue-gray            (muted/secondary text) │
+  │  #2dd4bf  ████████  Teal                 (accent — everywhere)  │
+  │  #5eead4  ████████  Light teal           (hover states)         │
+  │  #4ade80  ████████  Green                (deployed/live only)   │
+  │  #58a6ff  ████████  Blue                 (CLI text only)        │
+  └─────────────────────────────────────────────────────────────────┘
+
+─────────────────────────────────────────────────────────────────────────────
+8.5  RESPONSIVE DESIGN STRATEGY
+─────────────────────────────────────────────────────────────────────────────
+
+  THREE BREAKPOINTS:
+
+  ≥1100px (WIDE):
+    - ls -la columns show permissions + file size columns
+    - Skills grid: 3 columns
+
+  ≤768px (TABLET/MOBILE):
+    - Nav prompt hidden
+    - Nav links shrink to 0.65rem
+    - "EXPORT CV" text hidden, icon-only
+    - Skills grid → single column stack
+    - About section → single column, centered
+    - Reduced spacing (--space-xl: 2-3rem)
+    - Larger touch targets on social links (44px+)
+    - Hero name: 2.5rem fixed
+    - Watermark text shrinks
+
+  ≤480px (SMALL MOBILE):
+    - Container padding reduces to 1rem
+    - Email link uses word-break: break-all
+
+  KEY TECHNIQUE: clamp() for fluid typography
+    - hero-name: clamp(2.5rem, 8vw, 5rem)
+    - section-heading: clamp(1.5rem, 3.5vw, 2.25rem)
+    - watermarks: clamp(3rem, 8vw, 6rem)
+
+─────────────────────────────────────────────────────────────────────────────
+8.6  ANIMATION SYSTEM
+─────────────────────────────────────────────────────────────────────────────
+
+  NAMED ANIMATIONS:
+
+  1. fadeInUp         — Hero elements entrance (opacity + translateY)
+  2. fadeIn           — Scroll indicator appearance
+  3. bounce           — Scroll arrow constant bounce
+  4. cursor-blink     — Active nav link blinking underscore
+  5. blink            — CLI cursor blinking
+  6. pulse-border     — "LEARNING" status tag pulsing border
+  7. bug-drift        — Easter bug subtle floating movement
+  8. bug-pulse-glow   — Easter bug hint glow after 6s
+  9. live-pulse       — "Live" button dot pulsing
+  10. tw-blink        — Typewriter cursor blinking (injected by JS)
+
+  TOTAL: 10 @keyframes animations
+
+  REDUCED MOTION:
+    @media (prefers-reduced-motion: reduce) sets ALL animation durations
+    to 0.01ms and iteration count to 1, effectively disabling everything.
+
+================================================================================
+9. JAVASCRIPT ARCHITECTURE (LOW-LEVEL)
+================================================================================
+
+─────────────────────────────────────────────────────────────────────────────
+9.1  MODULE SYSTEM & DEPENDENCY GRAPH
+─────────────────────────────────────────────────────────────────────────────
+
+  Entry point: main.js (loaded as <script type="module">)
+
+  DEPENDENCY GRAPH:
+
+    main.js
+    ├── imports from utils.js:     fetchJSON, CONFIG
+    ├── imports from cli.js:       initCLIIntro
+    ├── imports from observer.js:  initSkillsBrackets, initScrollSpy,
+    │                              initSystemLayers, printConsoleEasterEgg
+    │
+    cli.js
+    ├── imports from utils.js:     CONFIG, prefersReducedMotion, sleep
+    ├── imports from typewriter.js: initSplitFlapHeadings, initTaglineTypewriter
+    └── imports from observer.js:  initGridBackground, initEasterBug,
+                                   initScrollTransitions
+
+    typewriter.js
+    └── imports from utils.js:     CONFIG
+
+    observer.js
+    └── imports from utils.js:     showToast
+
+    utils.js ← (leaf node, no imports)
+
+  INITIALIZATION ORDER (DOMContentLoaded):
+    1. printConsoleEasterEgg()  — ASCII art in browser console
+    2. initCLIIntro()           — Start CLI animation
+    3. loadContent()            — Fetch content.json, populate About/Skills
+    4. loadProjects()           — Fetch projects.json, build project cards
+    5. loadCertifications()     — Fetch certifications.json, build cert cards
+    6. initScrollSpy()          — Set up nav active tracking
+    7. initSystemLayers()       — Set up parallax watermarks
+
+  POST-INTRO INITIALIZATION (called by finishIntro in cli.js):
+    8. initSplitFlapHeadings()  — Build split-flap reels
+    9. initTaglineTypewriter()  — Start hero typewriter loop
+    10. initGridBackground()    — Start canvas animation
+    11. initEasterBug()         — Position and activate bug
+    12. initScrollTransitions() — Grid/bug show/hide on scroll
+
+─────────────────────────────────────────────────────────────────────────────
+9.2  CLI TYPING ENGINE (cli.js)
+─────────────────────────────────────────────────────────────────────────────
+
+  ALGORITHM:
+    For each line in the CLI script:
+      1. If empty string → append newline, sleep 100ms
+      2. If command (starts with "$") → type at 30ms/char
+      3. If output → type at 15ms/char (faster, simulating instant output)
+      4. After line → append newline + optional delay
+    After all lines → sleep 400ms → finishIntro()
+
+  CHARACTER TYPING:
+    Uses requestAnimationFrame + setTimeout hybrid:
+      cliAnimationId = requestAnimationFrame(() => setTimeout(typeChar, speed))
+    This ensures smooth rendering while controlling speed.
+
+  CANCELLATION:
+    - isIntroSkipped flag checked at start of every typeLine() and typeChar()
+    - cancelAnimationFrame(cliAnimationId) called on skip
+
+─────────────────────────────────────────────────────────────────────────────
+9.3  TYPEWRITER EFFECT (typewriter.js → initTaglineTypewriter)
+─────────────────────────────────────────────────────────────────────────────
+
+  PHRASES CYCLED:
+    1. "exploring data-driven intelligence" (English)
+    2. "ಡೇಟಾ ಚಾಲಿತ ಬುದ್ಧಿಮತ್ತೆಯನ್ನು ಅನ್ವೇಷಿಸುವುದು" (Kannada)
+
+  ALGORITHM:
+    tick() function runs in a loop:
+      - If NOT erasing: type one grapheme at a time
+      - If charIndex > total graphemes: set isErasing = true, hold for 2s
+      - If erasing: remove one grapheme at a time (2× speed)
+      - If charIndex = 0: switch to next phrase, pause 500ms
+
+  GRAPHEME HANDLING:
+    Uses Intl.Segmenter('kn', { granularity: 'grapheme' }) when available.
+    This is critical for Kannada because a single visual character may be
+    composed of multiple Unicode code points. Without segmentation, erasing
+    would delete individual code points and show broken characters.
+
+  DYNAMIC SPEED CALCULATION:
+    - baseTime = 2000ms (total time to type a phrase)
+    - dynamicTypeSpeed = Math.max(40, baseTime / graphemes.length)
+    - Longer phrases (like Kannada) type faster so both phrases take
+      roughly the same wall-clock time
+
+  CURSOR:
+    - CSS injected dynamically: right border 2px solid teal, blinking
+    - Style element has id="typewriter-css" to prevent duplicate injection
+
+─────────────────────────────────────────────────────────────────────────────
+9.4  SPLIT-FLAP HEADING ANIMATION (typewriter.js → initSplitFlapHeadings)
+─────────────────────────────────────────────────────────────────────────────
+
+  TRANSLATIONS CONFIGURED:
+    "About"    → "ಬಗ್ಗೆ"
+    "Projects" → "ಯೋಜನೆಗಳು"
+    "Contact"  → "ಸಂಪರ್ಕ"
+
+  HOW IT WORKS:
+    1. For each [data-scramble] heading, get the English text
+    2. Look up the Kannada translation from CONFIG
+    3. Create a reel for each character position (max of English/Kannada length)
+    4. Each reel contains TWO glyphs stacked vertically:
+       - Position 0: English character (visible by default)
+       - Position 1: Kannada character (revealed by translateY)
+    5. On hover → wrapper gets .active class
+    6. Each reel's translateY shifts from 0em to -1.2em
+    7. Character width transitions from --w-eng to --w-kan CSS variables
+    8. Staggered delay: each reel starts 0.05s after the previous
+
+  DESKTOP: mouseenter → flip to Kannada; mouseleave → flip back
+  TOUCH: IntersectionObserver triggers flip at 0.5 threshold, 
+         then flips back after 2.3 seconds
+
+  DYNAMIC WIDTH MEASUREMENT:
+    - measureWidth() creates a temporary hidden span, appends it,
+      reads getBoundingClientRect().width, removes it
+    - This ensures each reel is exactly the right width for its character
+    - Waits for document.fonts.ready to ensure fonts are loaded first
+
+─────────────────────────────────────────────────────────────────────────────
+9.5  INTERACTIVE GRID CANVAS BACKGROUND (observer.js → initGridBackground)
+─────────────────────────────────────────────────────────────────────────────
+
+  This is a FULL-SCREEN canvas that renders behind the hero section.
+
+  RENDERING ALGORITHM (every frame via requestAnimationFrame):
+    1. Clear canvas
+    2. Draw base grid lines (every 40px) in very faint gray (rgba 0.1)
+    3. Draw GLOW grid lines (same 40px grid but in teal, rgba 0.6)
+       — only within GLOW_RADIUS (250px) of mouse cursor
+    4. Apply radial gradient mask using globalCompositeOperation: 'destination-in'
+       This creates a "flashlight" effect — teal grid lines only appear
+       near the cursor and fade radially outward
+
+  MOUSE TRACKING:
+    document.addEventListener('mousemove') updates mouseX, mouseY
+
+  PERFORMANCE:
+    - Only grid lines within the glow radius are computed
+    - Canvas is resized on window resize
+    - Animation stops when user scrolls past hero (initScrollTransitions)
+    - canvas._gridStop() cancels animationFrame
+    - canvas._gridStart() restarts if scrolled back up
+
+─────────────────────────────────────────────────────────────────────────────
+9.6  EASTER EGG BUG (observer.js → initEasterBug)
+─────────────────────────────────────────────────────────────────────────────
+
+  A hidden SVG "bug" (insect/debugging icon) is placed RANDOMLY near
+  the hero heading.
+
+  BEHAVIOR:
+    1. INVISIBLE by default (opacity: 0)
+    2. As mouse approaches within 200px → fades in proportionally
+    3. Within 80px → adds "bug-glow" class (teal glow effect)
+    4. After 6 seconds → if not found, starts subtle pulsing (bug-pulse)
+       at 30% opacity as a hint
+    5. On CLICK → "bug-caught" class: spirals away (scale(0) rotate(180deg))
+       + console log + toast notification: "🪲 Bug caught! Nice reflexes."
+
+  POSITIONING:
+    - Calculated based on hero heading bounding rect
+    - Placed in one of 4 quadrants around the heading (random)
+    - Clamped to prevent going off-screen (40px edge padding)
+
+  SCROLL BEHAVIOR:
+    - Hidden when user scrolls past hero section
+    - Shown again when scrolling back up (if not already caught)
+
+─────────────────────────────────────────────────────────────────────────────
+9.7  SCROLL-SPY NAVIGATION (observer.js → initScrollSpy)
+─────────────────────────────────────────────────────────────────────────────
+
+  - Uses IntersectionObserver with rootMargin: '-20% 0px -70% 0px'
+  - This means a section is "active" when it occupies the 20-30% range
+    from the top of the viewport
+  - Updates .active class on matching nav link
+  - Sections tracked: hero, about, projects, certifications, contact
+
+─────────────────────────────────────────────────────────────────────────────
+9.8  SCROLL TRANSITIONS (observer.js → initScrollTransitions)
+─────────────────────────────────────────────────────────────────────────────
+
+  When the "about" section enters the viewport (10% threshold):
+    - Grid canvas fades out (grid-hidden class) + animation stops
+    - Easter bug hides
+  When scrolling back up past about:
+    - Grid canvas fades back in + animation restarts
+    - Easter bug shows again
+
+─────────────────────────────────────────────────────────────────────────────
+9.9  SYSTEM LAYERS / PARALLAX WATERMARKS (observer.js → initSystemLayers)
+─────────────────────────────────────────────────────────────────────────────
+
+  THREE WATERMARK TEXTS:
+    1. "INIT_CORE_DUMP"        (rotated -12°, top-left)
+    2. "LATENT_SPACE_ACTIVE"   (rotated  +8°, center-right)
+    3. "EPOCH_OVERFLOW"         (rotated  -5°, bottom-left)
+
+  PARALLAX:
+    - On scroll, each watermark's translateY is updated:
+      speed = 0.05 + (index × 0.03)
+    - Scroll listener uses { passive: true } for performance
+    - Updates are throttled via requestAnimationFrame + ticking flag
+
+  ACTIVATION:
+    - Watermarks and digital grid are INVISIBLE on the hero section
+    - When hero scrolls out of view → .layers-active class added
+    - When hero is ≥80% visible again → class removed
+    - This creates a layered effect: hero has the canvas grid, rest
+      of the page has the watermark layers
+
+─────────────────────────────────────────────────────────────────────────────
+9.10  DATA LOADING PIPELINE (main.js)
+─────────────────────────────────────────────────────────────────────────────
+
+  THREE ASYNC LOADERS:
+
+  1. loadContent() → content.json
+     - Populates #about-text with paragraphs
+     - Builds skills grid in #skills-grid (with ls-la structure)
+     - Sets email link href and text
+     - Builds social links from ICONS map
+
+  2. loadProjects() → projects.json
+     - Builds project cards with header, description, tech pills
+     - Conditionally adds "Live" button if project.live exists
+     - Uses inline SVG strings for GitHub, arrow, and live dot icons
+
+  3. loadCertifications() → certifications.json
+     - Builds cert cards with badge, title, issuer, ID, status
+     - Sets up IntersectionObserver for staggered scroll-in reveal
+     - Distinguishes "COMING SOON" cards (dimmed, no verify link)
+
+  ERROR HANDLING:
+    - fetchJSON() catches errors, logs to console, returns null
+    - Each loader checks for null before proceeding
+    - CLI intro has its own try/catch with hardcoded fallback
+
+================================================================================
+10. DATA ARCHITECTURE (JSON-DRIVEN CONTENT)
+================================================================================
+
+  content.json (Profile, Skills, CLI script):
+    {
+      name, tagline, email,
+      socials: [{ name, url }],
+      about: [paragraph1, paragraph2, ...],
+      directories: [{
+        path: "~/category_name",
+        items: [{ name, permissions, size, status? }]
+      }],
+      cliIntro: {
+        lines: ["$ command", "output", "", ...]
+      }
+    }
+
+  projects.json (Array of projects):
+    [{
+      title, description, tech: [...], url, live?
+    }]
+
+  certifications.json (Array of certs):
+    [{
+      title, issuer, id, badge_url, verify_url, status, year
+    }]
+
+  DESIGN PRINCIPLE:
+    Content is completely decoupled from presentation. To add a new
+    project, you edit projects.json — no HTML changes needed. To add
+    a new skill, you edit the directories array in content.json.
+
+================================================================================
+11. UNIQUE & DISTINGUISHING FEATURES
+================================================================================
+
+  1. ZERO-DEPENDENCY ARCHITECTURE
+     No React, no Vue, no Tailwind, no npm packages. The entire site 
+     runs on native browser APIs. This is rare for a visually rich,
+     interactive portfolio.
+
+  2. COMPLETE TERMINAL METAPHOR
+     Unlike sites that merely use a dark theme, this one commits fully:
+     skills displayed as `ls -la` with real Unix permissions, navigation
+     with shell prompt, bracket-selection hover states, status indicators
+     mimicking process states.
+
+  3. BILINGUAL ANIMATIONS (English ↔ Kannada)
+     - Typewriter effect cycles between English and Kannada phrases
+     - Split-flap headings translate on hover
+     - Intl.Segmenter used for proper Kannada grapheme handling
+     - Noto Sans Kannada loaded specifically for this
+
+  4. CANVAS "FLASHLIGHT" GRID
+     A full-screen canvas where a teal grid glows around the mouse
+     cursor using a radial gradient mask — a genuine interactive 
+     background, not a CSS pattern.
+
+  5. EASTER EGG BUG
+     A hidden SVG bug near the hero heading that:
+     - Is invisible until mouse approaches
+     - Glows when very close
+     - Pulses as a hint after 6 seconds
+     - Spirals away when clicked
+     - Triggers a toast notification AND console log
+     - The word "bug" is a debugging pun
+
+  6. CONSOLE EASTER EGG
+     Opening browser DevTools reveals ASCII art of "Yasser Ahmed"
+     with system status information — a nod to developers who inspect.
+
+  7. GRAYSCALE-TO-COLOR CERT BADGE "DECRYPT"
+     Certification badges start grayscale and transition to full color
+     on hover, creating a "data decryption" visual metaphor.
+
+  8. SPLIT-FLAP MECHANICAL ANIMATION
+     Section headings use a mechanical split-flap display metaphor
+     (like airport departure boards) to transition between English
+     and Kannada text, with per-character staggered timing.
+
+  9. SMART SCROLL ORCHESTRATION
+     The hero section has the canvas grid + easter bug.
+     The rest of the page has parallax watermarks + digital grid.
+     Scrolling orchestrates a smooth handoff between these layers.
+
+  10. DATA-DRIVEN CLI INTRO
+      The terminal intro animation reads its script from JSON data,
+      making it configurable without code changes.
+
+  11. REALISTIC FILE PERMISSIONS IN SKILLS
+      Skills have Unix permissions that are thematically meaningful:
+      - -rwxr-xr-x for actively used tools (executable)
+      - -rw-r--r-- for tools used for reading/analysis
+      - -rw------- for tools still being learned (restricted access)
+
+  12. PREFERS-REDUCED-MOTION RESPECT
+      All 10+ animations are completely disabled for users who have
+      requested reduced motion — a single @media query in animations.css
+      overrides everything to 0.01ms duration.
+
+================================================================================
+12. ACCESSIBILITY CONSIDERATIONS
+================================================================================
+
+  1. SEMANTIC HTML: Proper use of <main>, <section>, <nav>, <article>,
+     <footer>, <blockquote>, <cite>, <h1>-<h3> hierarchy
+  2. aria-live="polite" on CLI intro for screen reader updates
+  3. aria-label on skip button, social links, project links
+  4. aria-hidden="true" on decorative elements (canvas, bug, watermarks)
+  5. :focus-visible styles: 2px teal outline with 4px offset
+  6. tabindex="0" on project cards and skill tags for keyboard navigation
+  7. prefers-reduced-motion: All animations disabled
+  8. Skip mechanism: Esc key or visible button to bypass CLI intro
+  9. Touch device support: IntersectionObserver replaces hover for 
+     split-flap and bracket animations on (hover: none) devices
+  10. alt text on images ("Zzz..." for profile photo — playful alt text)
+
+================================================================================
+13. PERFORMANCE OPTIMIZATIONS
+================================================================================
+
+  1. Canvas animation STOPS when scrolled past hero (saves GPU/CPU)
+  2. requestAnimationFrame used for all animation loops
+  3. Scroll listener uses { passive: true }
+  4. Scroll parallax throttled with ticking flag + rAF
+  5. IntersectionObserver.unobserve() after first trigger for one-shot
+     animations (cert cards, skill brackets)
+  6. Images use loading="lazy" for deferred loading
+  7. No external CSS/JS libraries — only Google Fonts loaded externally
+  8. CSS will-change: transform on watermarks for GPU-accelerated transforms
+  9. Font preconnect hints: <link rel="preconnect"> to fonts.googleapis.com
+     and fonts.gstatic.com
+
+================================================================================
+14. SEO CONSIDERATIONS
+================================================================================
+
+  1. <title>: "Yasser Ahmed | ML & Data Science"
+  2. <meta name="description">: "Yasser Ahmed - Machine Learning & Data
+     Science aspirant exploring data-driven intelligence."
+  3. <meta name="author">: "Yasser Ahmed"
+  4. <meta name="viewport">: Responsive viewport meta tag
+  5. <meta charset="UTF-8">
+  6. Favicon set via <link rel="icon">
+  7. Semantic heading hierarchy: one <h1>, multiple <h2>s, <h3>s
+  8. All external links have rel="noopener noreferrer" for security
+  9. target="_blank" on outbound links
+
+  LIMITATION: No Open Graph / Twitter Card meta tags, no structured data
+  (JSON-LD), no sitemap.xml, no robots.txt. These would be needed for
+  professional SEO but are not critical for a portfolio.
+
+================================================================================
+15. SUMMARY
+================================================================================
+
+This website is a technically ambitious, zero-dependency personal portfolio
+that fully commits to a Linux terminal aesthetic. It demonstrates proficiency
+in:
+
+  - Modern CSS: Custom properties, grid, clamp(), backdrop-filter, 
+    animations, media queries
+  - Modern JavaScript: ES6 modules, async/await, IntersectionObserver,
+    Intl.Segmenter, Canvas 2D API, requestAnimationFrame
+  - Software Architecture: Separation of concerns (data, presentation,
+    behavior), modular code, configuration centralization
+  - Accessibility: WCAG-aware focus styles, reduced motion, ARIA 
+    attributes, keyboard navigation
+  - Creative Design: Bilingual animations, interactive backgrounds,
+    Easter eggs, terminal metaphors that extend from surface aesthetics
+    to information architecture
+
+  The total codebase is approximately 74 KB of authored code (excluding
+  images and resume), with zero external runtime dependencies.
+
+================================================================================
+  END OF REPORT
+================================================================================
