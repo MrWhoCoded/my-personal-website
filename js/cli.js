@@ -1,6 +1,6 @@
 import { CONFIG, prefersReducedMotion, sleep } from './utils.js';
 import { initSplitFlapHeadings, initTaglineTypewriter } from './typewriter.js';
-import { initGridBackground, initEasterBug, initScrollTransitions } from './observer.js';
+import { initGridBackground, initEasterBug, initScrollTransitions, initCommandLauncher } from './observer.js';
 
 let cliAnimationId = null;
 let isIntroSkipped = false;
@@ -26,6 +26,7 @@ export async function initCLIIntro() {
             initGridBackground();
             initEasterBug();
             initScrollTransitions();
+            initCommandLauncher();
         });
     }
 
@@ -53,7 +54,7 @@ export async function initCLIIntro() {
     // Try to fetch CLI lines from content.json, fallback if failed
     let lines = [];
     try {
-        const res = await fetch(CONFIG.contentPath);
+        const res = await fetch(CONFIG.contentPath, { cache: 'no-cache' });
         const data = await res.json();
         lines = data.cliIntro && data.cliIntro.lines ?
             data.cliIntro.lines.map(line => ({ text: line, type: line.startsWith('$') ? 'command' : 'output', delay: line.startsWith('$') ? 0 : 150 })) :

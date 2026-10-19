@@ -165,6 +165,27 @@
             </div>
         </footer>
 
+        <!-- Command Palette Launcher -->
+        <button id="cmd-launcher" class="cmd-launcher" aria-label="Open command palette">
+            <span class="cmd-launcher-icon">&gt;_</span>
+        </button>
+
+        <!-- Command Palette Modal Interface -->
+        <div id="cmd-palette-backdrop" class="cmd-palette-backdrop" aria-hidden="true" hidden>
+            <div id="cmd-palette-modal" class="cmd-palette-modal" role="dialog" aria-modal="true" aria-label="Portfolio Terminal">
+                <div class="cmd-palette-header">
+                    <span class="cmd-palette-title">Portfolio Terminal</span>
+                    <button id="cmd-palette-close" class="cmd-palette-close" aria-label="Close terminal">&times;</button>
+                </div>
+                <div class="cmd-palette-body">
+                    <div id="cmd-palette-output" class="cmd-palette-output"></div>
+                    <div class="cmd-prompt-line">
+                        <span class="cmd-prompt-symbol">$</span>
+                        <input type="text" id="cmd-palette-input" class="cmd-palette-input" autocomplete="off" spellcheck="false" aria-label="Terminal command prompt input">
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <!-- Scripts -->

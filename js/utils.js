@@ -8,6 +8,7 @@ export const CONFIG = {
         translations: {
             'About': 'ಬಗ್ಗೆ',
             'Projects': 'ಯೋಜನೆಗಳು',
+            'Certifications': 'ಪ್ರಮಾಣಪತ್ರಗಳು',
             'Contact': 'ಸಂಪರ್ಕ'
         }
     },
@@ -31,11 +32,30 @@ export function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-export function showToast(message) {
+export function showToast(message, options = {}) {
     const toast = document.createElement('div');
     toast.className = 'toast';
     toast.textContent = message;
+
+    if (options.x !== undefined && options.y !== undefined) {
+        toast.style.left = `${options.x}px`;
+        toast.style.top = `${options.y}px`;
+        toast.style.bottom = 'auto';
+        toast.style.right = 'auto';
+    }
+
     document.body.appendChild(toast);
+
+    if (options.x !== undefined && options.y !== undefined) {
+        const rect = toast.getBoundingClientRect();
+        const padding = 16;
+        const clampedX = Math.max(padding, Math.min(window.innerWidth - rect.width - padding, options.x));
+        const clampedY = Math.max(padding, Math.min(window.innerHeight - rect.height - padding, options.y));
+
+        toast.style.left = `${clampedX}px`;
+        toast.style.top = `${clampedY}px`;
+    }
+
     toast.offsetHeight;
     toast.classList.add('show');
     setTimeout(() => {
@@ -48,7 +68,7 @@ export function showToast(message) {
 
 export async function fetchJSON(url) {
     try {
-        const response = await fetch(url);
+        const response = await fetch(url, { cache: 'no-cache' });
         if (!response.ok) throw new Error('Not found: ' + url);
         return await response.json();
     } catch (error) {
