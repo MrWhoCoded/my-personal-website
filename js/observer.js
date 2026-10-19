@@ -81,9 +81,10 @@ export function initEasterBug() {
     if (!bug || !hero) return;
 
     bug.addEventListener('click', () => {
+        const bugRect = bug.getBoundingClientRect();
         bug.classList.add('bug-caught');
         console.log('%c🐛 Bug caught! Nice reflexes.', 'color: #2dd4bf; font-weight: bold; font-family: monospace;');
-        showToast('🪲 Bug caught! Nice reflexes.');
+        showToast('🪲 Bug caught! Nice reflexes.', { x: bugRect.left, y: bugRect.top });
     });
 
     const heading = hero.querySelector('.hero-name');
@@ -284,4 +285,145 @@ export function printConsoleEasterEgg() {
     console.log('%c  📫 yasser.ahmed.dev@gmail.com', subtleStyle);
     console.log('%c━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', subtleStyle);
     console.log('%c  ← You found the Easter Egg! Nice detective work. 🕵️', 'color: #2dd4bf; font-style: italic; font-size: 11px;');
+}
+
+export function initCommandLauncher() {
+    const launcher = document.getElementById('cmd-launcher');
+    const backdrop = document.getElementById('cmd-palette-backdrop');
+    const modal = document.getElementById('cmd-palette-modal');
+    const closeBtn = document.getElementById('cmd-palette-close');
+    const input = document.getElementById('cmd-palette-input');
+    const output = document.getElementById('cmd-palette-output');
+
+    if (!launcher || !backdrop) return;
+
+    function openPalette() {
+        backdrop.hidden = false;
+        backdrop.setAttribute('aria-hidden', 'false');
+        backdrop.offsetHeight;
+        backdrop.classList.add('open');
+        if (input) {
+            setTimeout(() => input.focus(), 50);
+        }
+        document.addEventListener('keydown', handleKeyDown);
+    }
+
+    function closePalette() {
+        backdrop.classList.remove('open');
+        document.removeEventListener('keydown', handleKeyDown);
+        setTimeout(() => {
+            backdrop.hidden = true;
+            backdrop.setAttribute('aria-hidden', 'true');
+        }, 250);
+    }
+
+    function handleKeyDown(e) {
+        if (e.key === 'Escape') {
+            closePalette();
+        }
+    }
+
+    function appendOutputLine(text, className = '') {
+        if (!output) return;
+        const entry = document.createElement('div');
+        entry.className = `cmd-output-entry ${className}`.trim();
+        entry.textContent = text;
+        output.appendChild(entry);
+        output.scrollTop = output.scrollHeight;
+    }
+
+    function scrollToSection(id) {
+        const el = document.getElementById(id);
+        if (el) {
+            closePalette();
+            el.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    function triggerResumeDownload() {
+        const link = document.createElement('a');
+        link.href = './resume/YasserAhmedMohammed_BMSCE.pdf';
+        link.download = 'YasserAhmedMohammed_BMSCE.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    const COMMANDS = {
+        help: () => `Available Commands\n\nabout\nprojects\nskills\ncontact\nresume\nclear`,
+        about: () => {
+            scrollToSection('about');
+            return null;
+        },
+        projects: () => {
+            scrollToSection('projects');
+            return null;
+        },
+        skills: () => {
+            scrollToSection('skills-grid');
+            return null;
+        },
+        contact: () => {
+            scrollToSection('contact');
+            return null;
+        },
+        resume: () => {
+            triggerResumeDownload();
+            return null;
+        },
+        clear: () => {
+            if (output) output.innerHTML = '';
+            return null;
+        }
+    };
+
+    if (input) {
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const raw = input.value.trim();
+                input.value = '';
+                if (!raw) return;
+
+                const cmd = raw.toLowerCase();
+
+                // Render typed command in output stream
+                appendOutputLine(`$ ${raw}`, 'cmd-output-cmd');
+
+                if (cmd === 'clear') {
+                    if (output) output.innerHTML = '';
+                    return;
+                }
+
+                if (COMMANDS[cmd]) {
+                    const result = COMMANDS[cmd]();
+                    if (result) {
+                        appendOutputLine(result, 'cmd-output-text');
+                    }
+                } else {
+                    appendOutputLine(`Command not found.\nType "help".`, 'cmd-output-error');
+                }
+            }
+        });
+    }
+
+    launcher.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openPalette();
+    });
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closePalette);
+    }
+
+    backdrop.addEventListener('click', (e) => {
+        if (e.target === backdrop) {
+            closePalette();
+        }
+    });
+
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    }
 }

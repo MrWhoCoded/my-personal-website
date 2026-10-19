@@ -57,6 +57,11 @@
           "name": "Kotlin",
           "permissions": "-rwxr-xr-x",
           "size": "2.7K"
+        },
+        {
+          "name": "Bash",
+          "permissions": "-rwxr-xr-x",
+          "size": "1.8K"
         }
       ]
     },
@@ -67,6 +72,31 @@
           "name": "scikit-learn",
           "permissions": "-rwxr-xr-x",
           "size": "8.4K"
+        },
+        {
+          "name": "PyTorch",
+          "permissions": "-rwxr-xr-x",
+          "size": "14.8K"
+        },
+        {
+          "name": "Transformers",
+          "permissions": "-rwxr-xr-x",
+          "size": "12.6K"
+        },
+        {
+          "name": "LLMs",
+          "permissions": "-rwxr-xr-x",
+          "size": "16.2K"
+        },
+        {
+          "name": "LangChain",
+          "permissions": "-rwxr-xr-x",
+          "size": "9.1K"
+        },
+        {
+          "name": "LangFlow",
+          "permissions": "-rwxr-xr-x",
+          "size": "7.8K"
         },
         {
           "name": "FaceNet",
@@ -87,11 +117,6 @@
           "name": "Power BI",
           "permissions": "-rw-r--r--",
           "size": "9.2K"
-        },
-        {
-          "name": "Tableau",
-          "permissions": "-rw-r--r--",
-          "size": "7.8K"
         }
       ]
     },
@@ -99,26 +124,10 @@
       "path": "~/infrastructure_v0.2",
       "items": [
         {
-          "name": "Firebase",
-          "permissions": "-rwxr-xr-x",
-          "size": "4.1K",
-          "status": "DEPLOYED"
-        },
-        {
           "name": "Git",
           "permissions": "-rwxr-xr-x",
-          "size": "3.2K"
-        },
-        {
-          "name": "Android Studio",
-          "permissions": "-rwxr-xr-x",
-          "size": "11.5K"
-        },
-        {
-          "name": "AWS",
-          "permissions": "-rw-------",
-          "size": "6.8K",
-          "status": "LEARNING"
+          "size": "3.2K",
+          "status": "ACTIVE"
         },
         {
           "name": "Docker",
@@ -127,10 +136,40 @@
           "status": "LEARNING"
         },
         {
+          "name": "Firebase",
+          "permissions": "-rwxr-xr-x",
+          "size": "4.1K",
+          "status": "DEPLOYED"
+        },
+        {
           "name": "Ubuntu/WSL",
           "permissions": "-rwxr-xr-x",
           "size": "2.9K",
           "status": "ACTIVE"
+        },
+        {
+          "name": "AstraDB",
+          "permissions": "-rw-------",
+          "size": "5.6K",
+          "status": "LEARNING"
+        },
+        {
+          "name": "Vector Databases",
+          "permissions": "-rw-------",
+          "size": "8.3K",
+          "status": "LEARNING"
+        },
+        {
+          "name": "RAG Pipelines",
+          "permissions": "-rw-------",
+          "size": "13.7K",
+          "status": "LEARNING"
+        },
+        {
+          "name": "AWS",
+          "permissions": "-rw-------",
+          "size": "6.8K",
+          "status": "LEARNING"
         }
       ]
     }

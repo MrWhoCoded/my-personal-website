@@ -748,6 +748,78 @@ body {
     margin-bottom: var(--space-sm);
 }
 
+.project-title-group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    flex-wrap: wrap;
+}
+
+/* --- Project Status Tag & Terminal Tooltip --- */
+.project-status-tag {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--color-accent);
+    background: rgba(45, 212, 191, 0.08);
+    border: 1px solid rgba(45, 212, 191, 0.3);
+    padding: 2px 7px;
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+    cursor: help;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.project-status-tag:hover,
+.project-status-tag:focus-visible {
+    background: rgba(45, 212, 191, 0.16);
+    border-color: var(--color-accent);
+    box-shadow: 0 0 10px rgba(45, 212, 191, 0.2);
+}
+
+.status-tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    background: #0d1117;
+    color: var(--color-text);
+    border: 1px solid var(--color-accent);
+    padding: 6px 10px;
+    border-radius: 3px;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    line-height: 1.4;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6), 0 0 8px rgba(45, 212, 191, 0.15);
+    z-index: 10;
+}
+
+.status-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 4px;
+    border-style: solid;
+    border-color: var(--color-accent) transparent transparent transparent;
+}
+
+.project-status-tag:hover .status-tooltip,
+.project-status-tag:focus-visible .status-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
 .project-title {
     font-family: var(--font-heading);
     font-size: 1.3rem;
@@ -1225,4 +1297,47 @@ body {
 
 .skip-link:focus {
     top: 0;
+}
+
+/* --- Floating Command Palette Launcher --- */
+.cmd-launcher {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 900;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    height: 44px;
+    padding: 0 12px;
+    background: rgba(17, 24, 32, 0.9);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: var(--color-accent);
+    border: 1px solid rgba(45, 212, 191, 0.3);
+    border-radius: var(--border-radius);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+    transition: background 250ms ease, border-color 250ms ease, box-shadow 250ms ease, transform 250ms ease;
+    user-select: none;
+}
+
+.cmd-launcher:hover {
+    background: rgba(45, 212, 191, 0.12);
+    border-color: var(--color-accent);
+    box-shadow: 0 0 12px rgba(45, 212, 191, 0.25), 0 4px 16px rgba(0, 0, 0, 0.5);
+    transform: translateY(-2px);
+}
+
+.cmd-launcher:active {
+    transform: translateY(0);
+}
+
+.cmd-launcher-icon {
+    font-family: var(--font-mono);
+    letter-spacing: 0.05em;
 }

@@ -13,6 +13,21 @@
         "url": "https://github.com/MrWhoCoded/ClassLogger"
     },
     {
+        "title": "ClassLogger-RAG",
+        "description": "Built a Retrieval-Augmented Generation (RAG) study assistant for engineering students that ingests PDF notes, PPTX slides, and university question papers into AstraDB. Features dynamic query routing to separate concept questions from exam prep, generating answers via OpenRouter (Qwen 3 8B) with LangChain and PyMuPDF.",
+        "tech": [
+            "Python",
+            "Flask",
+            "AstraDB",
+            "OpenRouter",
+            "LangChain",
+            "PyMuPDF"
+        ],
+        "url": "https://github.com/MrWhoCoded/ClassLogger-RAG",
+        "status": "[ ACTIVE_DEV ]",
+        "statusTooltip": "Indexing knowledge base... Retrieval pipeline warming up."
+    },
+    {
         "title": "credit-card-defaults",
         "description": "Analyzed credit card default patterns using real-world data to understand key risk factors like credit score, demographics, and payment history. Built models and evaluated performance using metrics like ROC-AUC while focusing on false positives and false negatives.",
         "tech": [
@@ -59,16 +74,5 @@
             "NumPy"
         ],
         "url": "https://github.com/MrWhoCoded/attendence_project"
-    },
-    {
-        "title": "Wordle Clone",
-        "description": "Built a Wordle-style game in Python where users guess a 5-letter word with real-time feedback. Implemented game logic, input validation, and statistics tracking to create a complete and replayable experience.",
-        "tech": [
-            "Python",
-            "NumPy",
-            "JSON",
-            "GUI"
-        ],
-        "url": "https://github.com/MrWhoCoded/wordle_clone"
     }
 ]

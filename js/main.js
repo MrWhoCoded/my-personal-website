@@ -80,10 +80,16 @@ async function loadProjects() {
         const liveHtml = project.live
             ? `<a href="${project.live}" target="_blank" rel="noopener noreferrer" class="project-action project-live">Live ${liveIcon}</a>`
             : '';
+        const statusHtml = project.status
+            ? `<span class="project-status-tag" tabindex="0" aria-label="Status: ${project.status}. ${project.statusTooltip || ''}">${project.status}${project.statusTooltip ? `<span class="status-tooltip" role="tooltip">${project.statusTooltip}</span>` : ''}</span>`
+            : '';
         return `
         <article class="project-card" tabindex="0">
             <div class="project-header">
-                <h3 class="project-title"><a href="${project.url}" target="_blank" rel="noopener noreferrer">${project.title}</a></h3>
+                <div class="project-title-group">
+                    <h3 class="project-title"><a href="${project.url}" target="_blank" rel="noopener noreferrer">${project.title}</a></h3>
+                    ${statusHtml}
+                </div>
                 <a href="${project.url}" target="_blank" rel="noopener noreferrer" class="project-link-btn" aria-label="View ${project.title} on GitHub">${githubIcon}</a>
             </div>
             <p class="project-desc">${project.description}</p>
